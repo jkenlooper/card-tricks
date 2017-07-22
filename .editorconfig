@@ -1,0 +1,19 @@
+# For more information about the properties used in
+# this file, please see the EditorConfig documentation:
+# http://editorconfig.org/
+
+[*.{css}]
+indent_size = 2
+indent_style = space
+#max_line_length = 40
+
+[*.{html}]
+indent_size = 2
+indent_style = space
+
+[*.md]
+trim_trailing_whitespace = false
+
+[{*.js}]
+indent_size = 2
+indent_style = space

@@ -1,0 +1,36 @@
+{
+  "name": "card",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Jake Hickenlooper",
+  "license": "SEE LICENSE IN LICENSE",
+  "scripts": {
+    "pretest": "standard",
+    "rollup": "rollup --config rollup.config.js",
+    "prebuild": "rm -rf dist; mkdir -p dist",
+    "build": "ENV=production npm run rollup",
+    "dev": "npm run rollup -- -w"
+  },
+  "standard": {
+    "ignore": [
+      "node_modules/*",
+      "dist"
+    ]
+  },
+  "devDependencies": {
+    "babili": "^0.1.4",
+    "rollup": "^0.45.2",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-html": "^0.2.1",
+    "rollup-plugin-json": "^2.3.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^2.0.1",
+    "rollup-watch": "^4.3.1",
+    "standard": "^10.0.2",
+    "uglify-es": "^3.0.25"
+  },
+  "dependencies": {
+    "@webcomponents/webcomponentsjs": "^1.0.3"
+  }
+}
