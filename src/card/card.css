@@ -1,0 +1,7 @@
+:host {
+  background-color: gray;
+  display: block;
+}
+div {
+  outline: 1px solid black;
+}

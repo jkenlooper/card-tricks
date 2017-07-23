@@ -15,22 +15,31 @@
   "standard": {
     "ignore": [
       "node_modules/*",
-      "dist"
+      "dist",
+      "lib"
     ]
   },
   "devDependencies": {
-    "babili": "^0.1.4",
+    "autoprefixer": "^7.1.2",
+    "cssnano": "^3.10.0",
+    "postcss-calc": "^6.0.0",
+    "postcss-custom-media": "^6.0.0",
+    "postcss-custom-properties": "^6.1.0",
+    "postcss-import": "^10.0.0",
+    "postcss-url": "^7.1.0",
     "rollup": "^0.45.2",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-html": "^0.2.1",
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^2.0.1",
+    "rollup-pluginutils": "^2.0.1",
     "rollup-watch": "^4.3.1",
     "standard": "^10.0.2",
     "uglify-es": "^3.0.25"
   },
   "dependencies": {
-    "@webcomponents/webcomponentsjs": "^1.0.3"
+    "@webcomponents/webcomponentsjs": "file:lib/webcomponentsjs-1.0.3.tar.gz",
+    "hammerjs": "file:lib/hammer.js-2.0.8.tar.gz"
   }
 }

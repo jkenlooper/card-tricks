@@ -1,6 +1,7 @@
 import {version} from '../package.json'
 import foo from './foo.js'
-import card from './card.js'
+import './table'
+import './card'
 
 export default function () {
   console.log(foo)
