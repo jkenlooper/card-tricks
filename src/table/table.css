@@ -1,10 +1,20 @@
 :host {
-  background-color: #ddd;
-  display: block;
+  display: flex;
+  justify-content: stretch;
   contain: content;
   width: 80vw;
   height: 80vh;
-  border: 1px solid blue;
 }
 .m-table {
+  display: flex;
+  justify-content: stretch;
+  width: 100%;
+  background-color: #ddd;
+  border: 1px solid blue;
+}
+.m-table-Cards {
+  width: 100%;
+
+  background-color: #ccc;
+  border: 1px solid yellow;
 }

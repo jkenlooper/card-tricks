@@ -2,6 +2,10 @@
   background-color: gray;
   display: block;
 }
-div {
+.m-card {
+  display: flex;
+  position: absolute;
+  width: 150px;
+  height: 150px;
   outline: 1px solid black;
 }

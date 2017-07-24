@@ -21,8 +21,7 @@
       "lib"
     ],
     "globals": [
-       "HTMLElement",
-       "Hammer"
+      "Hammer"
     ]
   },
   "devDependencies": {
@@ -47,6 +46,7 @@
   },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "file:lib/webcomponentsjs-1.0.3.tar.gz",
-    "hammerjs": "file:lib/hammer.js-2.0.8.tar.gz"
+    "hammerjs": "file:lib/hammer.js-2.0.8.tar.gz",
+    "impetus": "file:lib/impetus-0.8.7.tar.gz"
   }
 }

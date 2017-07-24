@@ -7,7 +7,7 @@ test
 <span>test</span>
 `
 
-export default class extends HTMLElement {
+export default class extends window.HTMLElement {
   constructor () {
     super()
     console.log('constructor', this.tagName)

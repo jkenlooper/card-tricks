@@ -62,33 +62,29 @@ let config = {
   dest: `dist/${BUILD}.js`
 }
 
+let cssPlugins = [
+  postcssImport(),
+  postcssCustomProperties(),
+  postcssCustomMedia(),
+  postcssCalc(),
+  autoprefixer(),
+  postcssUrl()
+]
+if (PRODUCTION) {
+  cssPlugins.push(cssnano())
+}
+
 switch (BUILD) {
   case 'app':
     config.plugins.push(postcss({
-      plugins: [
-        postcssImport(),
-        postcssCustomProperties(),
-        postcssCustomMedia(),
-        postcssCalc(),
-        autoprefixer(),
-        postcssUrl(),
-        cssnano()
-      ],
+      plugins: cssPlugins,
       sourceMap: true,
       extract: true
     }))
     break
   case 'component':
     config.plugins.push(rollupPostcssInline({
-      plugins: [
-        postcssImport(),
-        postcssCustomProperties(),
-        postcssCustomMedia(),
-        postcssCalc(),
-        autoprefixer(),
-        postcssUrl(),
-        cssnano()
-      ],
+      plugins: cssPlugins,
       sourceMap: true,
       extract: true
     }))
