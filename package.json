@@ -7,16 +7,22 @@
   "license": "SEE LICENSE IN LICENSE",
   "scripts": {
     "pretest": "standard",
-    "rollup": "rollup --config rollup.config.js",
+    "rollup-component": "BUILD=component rollup --config rollup.config.js",
+    "rollup-app": "BUILD=app rollup --config rollup.config.js",
     "prebuild": "rm -rf dist; mkdir -p dist",
-    "build": "ENV=production npm run rollup",
-    "dev": "npm run rollup -- -w"
+    "build": "ENV=production npm run rollup-component && ENV=production npm run rollup-app",
+    "dev-component": "npm run rollup-component -- -w",
+    "dev-app": "npm run rollup-app -- -w"
   },
   "standard": {
     "ignore": [
       "node_modules/*",
       "dist",
       "lib"
+    ],
+    "globals": [
+       "HTMLElement",
+       "Hammer"
     ]
   },
   "devDependencies": {
@@ -32,6 +38,7 @@
     "rollup-plugin-html": "^0.2.1",
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-postcss": "^0.5.3",
     "rollup-plugin-uglify": "^2.0.1",
     "rollup-pluginutils": "^2.0.1",
     "rollup-watch": "^4.3.1",

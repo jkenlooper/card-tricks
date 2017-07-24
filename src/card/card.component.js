@@ -1,4 +1,3 @@
-/* global HTMLElement */
 import template from './card.html'
 import { version, author } from '../../package.json'
 import style from './card.css'

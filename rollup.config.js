@@ -1,13 +1,15 @@
 import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
 import json from 'rollup-plugin-json'
-// import babel from 'rollup-plugin-babel'
 import html from 'rollup-plugin-html'
 import uglify from 'rollup-plugin-uglify'
 import { minify } from 'uglify-es'
+// import execute from 'rollup-plugin-execute'
 
 // Modified rollup-plugin-postcss to store the css in a var
 import rollupPostcssInline from './lib/rollup-postcss-inline.js'
+
+import postcss from 'rollup-plugin-postcss'
 
 import postcssImport from 'postcss-import'
 import postcssCustomProperties from 'postcss-custom-properties'
@@ -17,10 +19,20 @@ import autoprefixer from 'autoprefixer'
 import postcssUrl from 'postcss-url'
 import cssnano from 'cssnano'
 
+// Minify built code for prodcution
 const PRODUCTION = process.env.ENV === 'production'
 
+// Handle different builds (components inline their CSS while the app CSS is
+// extracted into a file)
+const BUILD = process.env.BUILD
+const builds = ['app', 'component']
+
+if (builds.indexOf(BUILD) === -1) {
+  console.error('no build is defined!')
+}
+
 let config = {
-  entry: 'src/app.js',
+  entry: `src/${BUILD}.js`,
   format: 'iife',
   moduleName: 'app',
   sourceMap: true,
@@ -41,8 +53,18 @@ let config = {
         conservativeCollapse: true,
         minifyJS: true
       }
-    }),
-    rollupPostcssInline({
+    })
+  ],
+  globals: {
+    hammer: 'Hammer',
+    HTMLElement: 'HTMLElement'
+  },
+  dest: `dist/${BUILD}.js`
+}
+
+switch (BUILD) {
+  case 'app':
+    config.plugins.push(postcss({
       plugins: [
         postcssImport(),
         postcssCustomProperties(),
@@ -54,12 +76,23 @@ let config = {
       ],
       sourceMap: true,
       extract: true
-    })
-  ],
-  globals: {
-    hammer: 'Hammer'
-  },
-  dest: 'dist/app.js'
+    }))
+    break
+  case 'component':
+    config.plugins.push(rollupPostcssInline({
+      plugins: [
+        postcssImport(),
+        postcssCustomProperties(),
+        postcssCustomMedia(),
+        postcssCalc(),
+        autoprefixer(),
+        postcssUrl(),
+        cssnano()
+      ],
+      sourceMap: true,
+      extract: true
+    }))
+    break
 }
 
 if (PRODUCTION) {

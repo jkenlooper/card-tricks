@@ -1,4 +1,3 @@
-/* global HTMLElement */
 import template from './table.html'
 import style from './table.css'
 
