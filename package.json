@@ -21,7 +21,6 @@
       "lib"
     ],
     "globals": [
-      "Hammer"
     ]
   },
   "devDependencies": {

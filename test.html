@@ -7,17 +7,46 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="dist/app.css">
+        <link rel="stylesheet" href="example-deck.css">
     </head>
     <body>
 
       <m-table></m-table>
 
       <m-test></m-test>
-      <m-test></m-test>
-      <m-test></m-test>
-      <m-test></m-test>
-      <m-test></m-test>
-      <m-test></m-test>
+
+      <template id="card-back">
+        <!--
+        Card Back
+        Author: Test Test
+        -->
+        Back
+      </template>
+
+      <template id="card-a">
+        <!--
+        Card A
+        Author: Test Test
+        -->
+        <div class="m-card">
+          I'm card a
+          <b id="x"></b>
+          <b id="y"></b>
+        </div>
+      </template>
+
+      <template id="card-b">
+        <!--
+        Card B
+        Author: Test Test
+        -->
+        <div class="m-card">
+          I'm card b
+          <b id="x"></b>
+          <b id="y"></b>
+        </div>
+      </template>
+
       <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-sd-ce.js"></script>
       <script src="node_modules/hammerjs/hammer.js"></script>
       <script src="dist/app.js"></script>

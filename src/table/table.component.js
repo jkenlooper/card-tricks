@@ -1,5 +1,3 @@
-import Impetus from 'impetus'
-
 import Card from '../card/card.component.js'
 import template from './table.html'
 import style from './table.css'
@@ -15,25 +13,30 @@ export default class extends window.HTMLElement {
     const shadowRoot = this.attachShadow({mode: 'open'})
     shadowRoot.innerHTML = html
 
-
-    shadowRoot.getElementById('add-card').addEventListener('mousedown', this.handleMousedown.bind(this))
+    // Set the action for the add-card button
+    shadowRoot.querySelectorAll('[data-card]').forEach((button) => {
+      button.addEventListener('mousedown', this.handleMousedown.bind(this))
+    })
 
     this.container = shadowRoot.getElementById('cards')
-    // this.container.addEventListener('mousedown', this.handleMousedown.bind(this))
+    this.count = 0
   }
 
   handleMousedown (ev) {
-    console.log('table tap', ev.pageX, ev.pageY)
-    // ev.target.x = ev.pageX
-    // ev.target.y = ev.pageY
-    let container = this
+    console.log('table tap', ev.target, ev.pageX, ev.pageY)
 
-    this.addCard(ev.pageX, ev.pageY)
-
+    this.addCard(ev.target.getAttribute('data-card'), ev.pageX, ev.pageY)
   }
 
-  addCard (x, y) {
+  nextId () {
+    this.count += 1
+    return this.count
+  }
+
+  addCard (side, x, y) {
     let card = new Card({
+      id: this.nextId(),
+      side: side,
       x: x,
       y: y,
       container: this.container

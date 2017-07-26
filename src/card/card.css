@@ -1,11 +1,23 @@
 :host {
-  background-color: gray;
-  display: block;
-}
-.m-card {
   display: flex;
   position: absolute;
-  width: 150px;
-  height: 150px;
-  outline: 1px solid black;
+  outline: 1px solid currentColor;
+  background-color: white;
+  color: black;
+
+}
+
+/* 2.5 x 3.5 */
+.m-Card {
+  width: 100%;
+}
+
+.m-Card-front {
+  display: flex;
+  width: 100%;
+}
+
+.m-Card-back {
+  display: flex;
+  width: 100%;
 }

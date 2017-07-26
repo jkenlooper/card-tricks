@@ -1,0 +1,7 @@
+/* Pre-style, give layout, replicate m-table eventual styles, etc. */
+m-table:not(:defined) {
+  display: block;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  height: 100vh;
+}
