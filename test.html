@@ -11,31 +11,32 @@
     </head>
     <body>
 
-      <m-table></m-table>
+      <m-table>
+        <div id="cards-slot" slot="cards">
+          <p>All cards are added to this slot.</p>
+        </div>
+      </m-table>
 
       <m-test></m-test>
 
-      <template id="card-back">
+      <template id="card-back" width="71" height="96">
         <!--
         Card Back
         Author: Test Test
         -->
-        Back
       </template>
 
-      <template id="card-a">
+      <template id="card-02h" width="71" height="96">
         <!--
         Card A
         Author: Test Test
         -->
         <div class="m-card">
-          I'm card a
-          <b id="x"></b>
-          <b id="y"></b>
+          <img src="/cardset-standard/02h.gif" width="71" height="96" alt="02h">
         </div>
       </template>
 
-      <template id="card-b">
+      <template id="card-b" width="71" height="96">
         <!--
         Card B
         Author: Test Test

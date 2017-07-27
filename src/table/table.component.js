@@ -19,6 +19,7 @@ export default class extends window.HTMLElement {
     })
 
     this.container = shadowRoot.getElementById('cards')
+    this.cardsSlot = document.getElementById('cards-slot') || this.container
     this.count = 0
   }
 
@@ -42,6 +43,6 @@ export default class extends window.HTMLElement {
       container: this.container
     })
     console.log('addCard', card)
-    this.container.appendChild(card)
+    this.cardsSlot.appendChild(card)
   }
 }

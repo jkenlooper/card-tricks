@@ -12,14 +12,13 @@ ${template}
 // IDEA: use a <template> for each card type and have the template already on the page?
 
 // Poker size card 2.5 x 3.5
-const cardWidth = 100
-const cardHeight = cardWidth * 1.4
+const defaultCardWidth = 100
+const defaultCardHeight = defaultCardWidth * 1.4
 const CardBackTemplate = document.getElementById('card-back')
 
 export default class extends window.HTMLElement {
   constructor (props) {
     super()
-    this.setAttribute('id', `card-${props.id}`)
     const shadowRoot = this.attachShadow({mode: 'open'})
 
     shadowRoot.innerHTML = html
@@ -39,11 +38,13 @@ export default class extends window.HTMLElement {
     this.state = {}
     this.x = this.x || props.x
     this.y = this.y || props.y
+    this.width = CardATemplate.getAttribute('width') || defaultCardWidth
+    this.height = CardATemplate.getAttribute('height') || defaultCardHeight
     this.container = props.container
 
-    init.call(this)
+    this.init()
 
-    render.call(this)
+    this.render()
 
     shadowRoot.addEventListener('mousedown', this.handleMousedown.bind(this))
   }
@@ -60,7 +61,7 @@ export default class extends window.HTMLElement {
   attributeChangedCallback (attrName, oldVal, newVal) {
     // console.log('attributeChangedCallback', attrName, oldVal, newVal)
     if (oldVal !== newVal) {
-      render.call(this)
+      this.render()
     }
   }
 
@@ -86,34 +87,34 @@ export default class extends window.HTMLElement {
   // Fires when an instance was inserted into the document.
   connectedCallback () {}
 
-}
+  init () {
+    this.style.width = `${this.width}px`
+    this.style.height = `${this.height}px`
+    // TODO: Update bounds if container changes dimensions
+    this.setImpetus(this)
+  }
 
-function init () {
-  this.style.width = `${cardWidth}px`
-  this.style.height = `${cardHeight}px`
-  // TODO: Update bounds if container changes dimensions
-  setImpetus.call(this, this)
-}
+  render () {
+    // this.elements.x.innerHTML = this.x
+    // this.elements.y.innerHTML = this.y
+    this.style.transform = `translate3d(${this.x}px, ${this.y}px, 0)`
+      /*
+      rotate(${360 - this.r === 360 ? 0 : 360 - this.r}deg)`
+      */
+  }
 
-function setImpetus (target) {
-  this.impetus = new Impetus({
-    source: target,
-    initialValues: [Number(this.x), Number(this.y)],
-    boundX: [0, this.container.clientWidth - cardWidth],
-    boundY: [0, this.container.clientHeight - cardHeight],
-    update: function (x, y) {
-      target.x = x
-      target.y = y
-    }
-  })
-}
-// TODO: target.impetus = target.impetus.destroy()
+  setImpetus (target) {
+    this.impetus = new Impetus({
+      source: target,
+      initialValues: [Number(this.x), Number(this.y)],
+      boundX: [0, this.container.clientWidth - this.width],
+      boundY: [0, this.container.clientHeight - this.height],
+      update: function (x, y) {
+        target.x = x
+        target.y = y
+      }
+    })
+  }
+  // TODO: target.impetus = target.impetus.destroy()
 
-function render () {
-  this.elements.x.innerHTML = this.x
-  this.elements.y.innerHTML = this.y
-  this.style.transform = `translate3d(${this.x}px, ${this.y}px, 0)`
-    /*
-    rotate(${360 - this.r === 360 ? 0 : 360 - this.r}deg)`
-    */
 }

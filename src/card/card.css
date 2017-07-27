@@ -1,7 +1,8 @@
 :host {
   display: flex;
   position: absolute;
-  outline: 1px solid currentColor;
+  border: 1px solid currentColor;
+  border-radius: 1%;
   background-color: white;
   color: black;
 
@@ -12,7 +13,7 @@
   width: 100%;
 }
 
-.m-Card-front {
+.m-Card-side {
   display: flex;
   width: 100%;
 }
