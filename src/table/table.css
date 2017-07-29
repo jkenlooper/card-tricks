@@ -5,14 +5,14 @@
   width: 80vw;
   height: 80vh;
 }
-.m-table {
+.crdtrx-Table {
   display: flex;
   justify-content: stretch;
   width: 100%;
   background-color: #ddd;
   border: 1px solid blue;
 }
-.m-table-Cards {
+.crdtrx-Table-surface {
   width: 100%;
 
   background-color: #ccc;

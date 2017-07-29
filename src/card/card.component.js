@@ -16,7 +16,7 @@ const defaultCardWidth = 100
 const defaultCardHeight = defaultCardWidth * 1.4
 const CardBackTemplate = document.getElementById('card-back')
 
-export default class extends window.HTMLElement {
+class Card extends window.HTMLElement {
   constructor (props) {
     super()
     const shadowRoot = this.attachShadow({mode: 'open'})
@@ -42,10 +42,6 @@ export default class extends window.HTMLElement {
     this.height = CardATemplate.getAttribute('height') || defaultCardHeight
     this.container = props.container
 
-    this.init()
-
-    this.render()
-
     shadowRoot.addEventListener('mousedown', this.handleMousedown.bind(this))
   }
 
@@ -57,12 +53,23 @@ export default class extends window.HTMLElement {
     ]
   }
 
+  static get name () {
+    return 'crdtrx-card'
+  }
+
   // Fires when an attribute was added, removed, or updated.
   attributeChangedCallback (attrName, oldVal, newVal) {
     // console.log('attributeChangedCallback', attrName, oldVal, newVal)
     if (oldVal !== newVal) {
       this.render()
     }
+  }
+
+  // Fires when an instance was inserted into the document.
+  connectedCallback () {
+    this.init()
+
+    this.render()
   }
 
   // Reflect the prop with the attr
@@ -83,9 +90,6 @@ export default class extends window.HTMLElement {
   handleMousedown (ev) {
     console.log('tap', ev.pageX, ev.pageY)
   }
-
-  // Fires when an instance was inserted into the document.
-  connectedCallback () {}
 
   init () {
     this.style.width = `${this.width}px`
@@ -118,3 +122,4 @@ export default class extends window.HTMLElement {
   // TODO: target.impetus = target.impetus.destroy()
 
 }
+export default Card

@@ -9,16 +9,16 @@
 }
 
 /* 2.5 x 3.5 */
-.m-Card {
+.crdtrx-Card {
   width: 100%;
 }
 
-.m-Card-side {
+.crdtrx-Card-side {
   display: flex;
   width: 100%;
 }
 
-.m-Card-back {
+.crdtrx-Card-back {
   display: flex;
   width: 100%;
 }

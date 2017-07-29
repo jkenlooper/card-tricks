@@ -22,8 +22,9 @@ import cssnano from 'cssnano'
 // Minify built code for prodcution
 const PRODUCTION = process.env.ENV === 'production'
 
-// Handle different builds (components inline their CSS while the app CSS is
-// extracted into a file)
+// Handle different builds.
+// - Component uses style tag for CSS in shadow DOM.
+// - App CSS is extracted into a file.
 const BUILD = process.env.BUILD
 const builds = ['app', 'component']
 
@@ -34,7 +35,7 @@ if (builds.indexOf(BUILD) === -1) {
 let config = {
   entry: `src/${BUILD}.js`,
   format: 'iife',
-  moduleName: 'app',
+  moduleName: BUILD,
   sourceMap: true,
   plugins: [
     resolve(),

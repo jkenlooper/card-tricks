@@ -11,13 +11,25 @@
     </head>
     <body>
 
-      <m-table>
-        <div id="cards-slot" slot="cards">
+      <crdtrx-table>
+        <div slot="surface">
           <p>All cards are added to this slot.</p>
+          <crdtrx-pile stack="neat"
+              x="100"
+              y="100"
+              width="200"
+              height="200">
+          </crdtrx-pile>
         </div>
-      </m-table>
+      </crdtrx-table>
 
-      <m-test></m-test>
+      <crdtrx-cursor>
+        <!--
+          Holds the selected card or cards. Selected cards follow pointer or
+        are moved to top left corner. pointer-events: none; is set to allow
+        clicking on piles, table, etc.
+        -->
+      </crdtrx-cursor>
 
       <template id="card-back" width="71" height="96">
         <!--
@@ -27,10 +39,41 @@
       </template>
 
       <template id="card-02h" width="71" height="96">
-        <!--
-        Card A
-        Author: Test Test
-        -->
+        <div class="m-card">
+          <img src="/cardset-standard/02h.gif" width="71" height="96" alt="02h">
+        </div>
+      </template>
+      <template id="card-01c" width="71" height="96">
+        <div class="m-card">
+          <img src="/cardset-standard/01c.gif" width="71" height="96" alt="01c">
+        </div>
+      </template>
+      <template id="card-01d" width="71" height="96">
+        <div class="m-card">
+          <img src="/cardset-standard/01d.gif" width="71" height="96" alt="01d">
+        </div>
+      </template>
+      <template id="card-01h" width="71" height="96">
+        <div class="m-card">
+          <img src="/cardset-standard/01h.gif" width="71" height="96" alt="01h">
+        </div>
+      </template>
+      <template id="card-01s" width="71" height="96">
+        <div class="m-card">
+          <img src="/cardset-standard/01s.gif" width="71" height="96" alt="01s">
+        </div>
+      </template>
+      <template id="card-02c" width="71" height="96">
+        <div class="m-card">
+          <img src="/cardset-standard/02c.gif" width="71" height="96" alt="02c">
+        </div>
+      </template>
+      <template id="card-02d" width="71" height="96">
+        <div class="m-card">
+          <img src="/cardset-standard/02d.gif" width="71" height="96" alt="02d">
+        </div>
+      </template>
+      <template id="card-02h" width="71" height="96">
         <div class="m-card">
           <img src="/cardset-standard/02h.gif" width="71" height="96" alt="02h">
         </div>

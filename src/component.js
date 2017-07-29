@@ -1,5 +1,6 @@
+// import './card'
 import './table'
-import './card'
+// import './pile'
 
 export default function () {
   console.log('component')
