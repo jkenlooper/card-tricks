@@ -104,6 +104,9 @@ class Card extends window.HTMLElement {
     // this.elements.x.innerHTML = this.x
     // this.elements.y.innerHTML = this.y
     this.style.transform = `translate3d(${this.x}px, ${this.y}px, 0)`
+    if (this.impetus) {
+      this.impetus.setValues(Number(this.x), Number(this.y))
+    }
       /*
       rotate(${360 - this.r === 360 ? 0 : 360 - this.r}deg)`
       */

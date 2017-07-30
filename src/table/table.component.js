@@ -45,7 +45,7 @@ class Table extends window.HTMLElement {
       button.addEventListener('mousedown', this.handleMousedown.bind(this))
     })
     */
-    // this.addEventListener('mousedown', this.handleMousedown.bind(this))
+    this.addEventListener('mousedown', this.handleMousedown.bind(this))
 
     this.surface = shadowRoot.getElementById('surface')
     this.surfaceSlot = this.querySelector('[slot=surface]')
@@ -103,6 +103,16 @@ class Table extends window.HTMLElement {
     // console.log('addCard', side, Card)
     const card = new Card(newProps)
     this.surfaceSlot.appendChild(card)
+
+    // Set a proxy on the card so state changes will update the card properties too
+    this.cardList[props.id] = new Proxy(this.cardList[props.id], {
+      set: function (target, prop, value, receiver) {
+        console.log('set', prop, value)
+        card[prop] = value
+        target[prop] = value
+        return true
+      }
+    })
   }
 
   render () {
@@ -128,16 +138,21 @@ class Table extends window.HTMLElement {
   }
 
   handleMousedown (ev) {
-    console.log('table tap', ev.target, ev.currentTarget)
+    // Testing updates to the cardList data for card 2
+
     switch (ev.target.tagName.toLowerCase()) {
       case Table.name:
-        this.addCard('card-02h', ev.pageX, ev.pageY)
+        console.log('table tap', ev.target, ev.currentTarget)
+        this.cardList[2].x = ev.pageX
+        this.cardList[2].y = ev.pageY
+        this.render()
         break
       case Pile.name:
-        let card = ev.target.drawCard()
-        this.addCard(`card-${card.id}`, ev.pageX, ev.pageY)
+        // let card = ev.target.drawCard()
+        // this.addCard(`card-${card.id}`, ev.pageX, ev.pageY)
         break
       default:
+        break
     }
 
     // this.addCard(ev.target.getAttribute('data-card'), ev.pageX, ev.pageY)
