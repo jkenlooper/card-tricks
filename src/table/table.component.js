@@ -1,6 +1,6 @@
 import crdtrxCard from '../card'
 import crdtrxPile from '../pile'
-import cardsService from './cards.service.js'
+import cardService from './card.service.js'
 import template from './table.html'
 import style from './table.css'
 
@@ -19,7 +19,7 @@ const html = `
 ${template}
 `
 /*
- * data down events up.
+ * data down, events up.
  * raise the state.
  */
 /*
@@ -45,11 +45,19 @@ class Table extends window.HTMLElement {
       button.addEventListener('mousedown', this.handleMousedown.bind(this))
     })
     */
-    this.addEventListener('mousedown', this.handleMousedown.bind(this))
+    // this.addEventListener('mousedown', this.handleMousedown.bind(this))
 
     this.surface = shadowRoot.getElementById('surface')
     this.surfaceSlot = this.querySelector('[slot=surface]')
     this.count = 0
+    this.debugEl = shadowRoot.getElementById('debug')
+
+    this.addEventListener('crdtrx-card-xy', function (ev) {
+      // console.log(ev.type, ev.composedPath())
+      this.cardList[ev.target.id].x = ev.detail.x
+      this.cardList[ev.target.id].y = ev.detail.y
+      this.render()
+    }, false)
   }
 
   connectedCallback () {
@@ -64,14 +72,59 @@ class Table extends window.HTMLElement {
   init () {
     // let card = {id: '1', name: '01c', x: 30, y: 30, r: 0}
     // this.addCard(`card-${card.name}`, card.x, card.y)
-    this.cardList = cardsService.getCardList()
-    this.cardList.forEach((card) => {
-      this.addCard(`card-${card.name}`, card.x, card.y)
+
+    // Get all the cards for the table
+    this.cardList = cardService.getCardList()
+
+    // Only add the cards directly to the table that are not in a container
+    // TODO: add el instead?
+    Object.keys(this.cardList).filter((cardId) => {
+      return !this.cardList[cardId].container
     })
+    .forEach((cardId) => {
+      this.addCard(this.cardList[cardId])
+    })
+
+    /*
+    this.querySelectorAll(crdtrxPile).forEach((pile) => {
+      pile.cardList = this.cardList
+      pile.render()
+    })
+    */
+
+    this.render()
+  }
+
+  addCard (props) {
+    const newProps = Object.assign(props, {
+      // id: this.nextId(),
+      container: this.surface
+    })
+    // console.log('addCard', side, Card)
+    const card = new Card(newProps)
+    this.surfaceSlot.appendChild(card)
+  }
+
+  render () {
+    this.debugEl.innerHTML = `
+      <pre>${JSON.stringify(this.cardList, null, 2)}</pre>
+    `
   }
 
   static get name () {
     return 'crdtrx-table'
+  }
+
+  nextId () {
+    this.count += 1
+    return this.count
+  }
+
+  addPile () {
+    let pile = new Pile({
+      // TODO: set onClick handling here? Lifting state up
+    })
+    this.surfaceSlot.appendChild(pile)
   }
 
   handleMousedown (ev) {
@@ -90,38 +143,6 @@ class Table extends window.HTMLElement {
     // this.addCard(ev.target.getAttribute('data-card'), ev.pageX, ev.pageY)
   }
 
-  nextId () {
-    this.count += 1
-    return this.count
-  }
-
-  addPile () {
-    let pile = new Pile({
-      width: 100,
-      height: 100
-      // TODO: set onClick handling here? Lifting state up
-    })
-    this.surfaceSlot.appendChild(pile)
-  }
-
-  addCard (side, x, y) {
-    console.log('addCard', side, Card)
-    console.log({
-      id: this.nextId(),
-      side: side,
-      x: x,
-      y: y,
-      container: this.surface
-    })
-    let card = new Card({
-      id: this.nextId(),
-      side: side,
-      x: x,
-      y: y,
-      container: this.surface
-    })
-    this.surfaceSlot.appendChild(card)
-  }
 }
 
 export default Table

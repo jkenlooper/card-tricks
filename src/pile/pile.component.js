@@ -33,8 +33,9 @@ class Pile extends window.HTMLElement {
     this.area = shadowRoot.getElementById('area')
     this.areaSlot = this.querySelector('[slot=area]')
 
-    this.width = props.width
-    this.height = props.height
+    this.width = this.getAttribute('width') || 100
+    this.height = this.getAttribute('height') || 100
+    this.count = 0
   }
 
   // Fires when an instance was inserted into the document.
@@ -49,13 +50,45 @@ class Pile extends window.HTMLElement {
   init () {
     this.style.width = `${this.width}px`
     this.style.height = `${this.height}px`
+    this.containerId = this.getAttribute('container')
+
+    // TODO: cardList is on table. store a internal _cardList to check for
+    // changes on cardlest when needing to render()?
+    this._cards = {}
+    this.cardList = []
+  }
+
+  render () {
+    // cycle through cardList for items that have changed from _cardlist
+    this.cards.forEach((card) => {
+      console.log('render card in pile', card)
+    })
   }
 
   static get name () {
     return 'crdtrx-pile'
   }
 
+  get cards () {
+    return this.cardList.filter((card) => {
+      return card.container === this.containerId
+    })
+  }
+
+  addCard (side, x, y) {
+    console.log('addCard to pile', side, Card)
+    let card = new Card({
+      id: this.nextId(),
+      side: side,
+      x: x,
+      y: y,
+      container: this.surface
+    })
+    this.surfaceSlot.appendChild(card)
+  }
+
   drawTopCard () {
+    return this.cards[0]
   }
 
   acceptCards (cards) {

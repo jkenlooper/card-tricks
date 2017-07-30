@@ -11,14 +11,14 @@
     </head>
     <body>
 
-      <crdtrx-table>
+      <crdtrx-table game="1952-pickup">
         <div slot="surface">
           <p>All cards are added to this slot.</p>
-          <crdtrx-pile stack="neat"
-              x="100"
-              y="100"
-              width="200"
-              height="200">
+          <crdtrx-pile
+              container="1ee7"
+              stack="neat"
+              width="71"
+              height="96">
           </crdtrx-pile>
         </div>
       </crdtrx-table>
@@ -31,6 +31,8 @@
         -->
       </crdtrx-cursor>
 
+
+      <!-- Define all cards that are available for this game. -->
       <template id="card-back" width="71" height="96">
         <!--
         Card Back

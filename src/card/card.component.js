@@ -1,4 +1,5 @@
 import Impetus from 'impetus'
+import debounce from 'debounce'
 
 import template from './card.html'
 // import { version, author } from '../../package.json'
@@ -24,9 +25,9 @@ class Card extends window.HTMLElement {
     shadowRoot.innerHTML = html
     const cardBack = CardBackTemplate.content.cloneNode(true)
 
-    const CardATemplate = document.getElementById(props.side)
-    const cardA = CardATemplate.content.cloneNode(true)
-    shadowRoot.getElementById('card-front').appendChild(cardA)
+    const CardTemplate = document.getElementById(`card-${props.name}`)
+    const clonedCard = CardTemplate.content.cloneNode(true)
+    shadowRoot.getElementById('card-front').appendChild(clonedCard)
     shadowRoot.getElementById('card-back').appendChild(cardBack)
 
     // this.container = shadowRoot.querySelector('.m-card')
@@ -38,8 +39,9 @@ class Card extends window.HTMLElement {
     this.state = {}
     this.x = this.x || props.x
     this.y = this.y || props.y
-    this.width = CardATemplate.getAttribute('width') || defaultCardWidth
-    this.height = CardATemplate.getAttribute('height') || defaultCardHeight
+    this.id = props.id
+    this.width = CardTemplate.getAttribute('width') || defaultCardWidth
+    this.height = CardTemplate.getAttribute('height') || defaultCardHeight
     this.container = props.container
 
     shadowRoot.addEventListener('mousedown', this.handleMousedown.bind(this))
@@ -108,12 +110,25 @@ class Card extends window.HTMLElement {
   }
 
   setImpetus (target) {
+    const debouncedUpdateXY = debounce(function updateXY (x, y) {
+      const cardXYEvent = new window.CustomEvent('crdtrx-card-xy', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          x: x,
+          y: y
+        }
+      })
+      target.dispatchEvent(cardXYEvent)
+    }, 200)
+
     this.impetus = new Impetus({
       source: target,
       initialValues: [Number(this.x), Number(this.y)],
       boundX: [0, this.container.clientWidth - this.width],
       boundY: [0, this.container.clientHeight - this.height],
       update: function (x, y) {
+        debouncedUpdateXY(Math.round(x), Math.round(y))
         target.x = x
         target.y = y
       }

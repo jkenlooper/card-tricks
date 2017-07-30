@@ -18,3 +18,9 @@
   background-color: #ccc;
   border: 1px solid yellow;
 }
+.crdtrx-Table-debug {
+  position: absolute;
+  width: 100%;
+  overflow: auto;
+  height: 100%;
+}

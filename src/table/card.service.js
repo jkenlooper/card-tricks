@@ -1,11 +1,11 @@
 const cardList = [
-  {id: '1', name: '01c', x: 30, y: 30, r: 0},
+  {id: '1', name: '01c', x: 130, y: 330, r: 0, container: '1ee7'},
   {id: '2', name: '01d', x: 32, y: 32, r: 0},
   {id: '3', name: '01h', x: 32, y: 34, r: 0},
   {id: '4', name: '01s', x: 32, y: 36, r: 0},
-  {id: '5', name: '02c', x: 32, y: 38, r: 0},
+  {id: '5', name: '02c', x: 132, y: 338, r: 0, container: '1ee7'},
   {id: '6', name: '02d', x: 32, y: 40, r: 0},
-  {id: '7', name: '02h', x: 32, y: 42, r: 0}
+  {id: '7', name: '02h', x: 134, y: 342, r: 0, container: '1ee7'}
 //   ,
 //   {id: '8', name: '02s', x: 32, y: 44, r: 0},
 //   {id: '9', name: '03c', x: 32, y: 46, r: 0},
@@ -71,7 +71,11 @@ function cardsServiceFactory () {
   console.log('cardsServiceFactory', getCardList())
 
   function getCardList () {
-    return cardList
+    const cards = {}
+    cardList.forEach((card) => {
+      cards[card.id] = card
+    })
+    return cards
   }
 
   return service

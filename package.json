@@ -20,8 +20,7 @@
       "dist",
       "lib"
     ],
-    "globals": [
-    ]
+    "globals": []
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -45,6 +44,7 @@
   },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "file:lib/webcomponentsjs-1.0.3.tar.gz",
+    "debounce": "^1.0.2",
     "hammerjs": "file:lib/hammer.js-2.0.8.tar.gz",
     "impetus": "file:lib/impetus-0.8.7.tar.gz"
   }
