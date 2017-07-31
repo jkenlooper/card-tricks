@@ -76,38 +76,50 @@ class Table extends window.HTMLElement {
     // Get all the cards for the table
     this.cardList = cardService.getCardList()
 
-    // Only add the cards directly to the table that are not in a container
+    // Only add the cards directly to the table that are not in a pile
     // TODO: add el instead?
     Object.keys(this.cardList).filter((cardId) => {
-      return !this.cardList[cardId].container
+      return !this.cardList[cardId].pile
     })
     .forEach((cardId) => {
-      this.addCard(this.cardList[cardId])
+      this.addCard(this.cardList[cardId], this.surfaceSlot)
     })
 
-    /*
+    // TODO: pile init with cardList?
+    // TODO: should pile be already on the page?
     this.querySelectorAll(crdtrxPile).forEach((pile) => {
-      pile.cardList = this.cardList
-      pile.render()
+      // pile.cardList = this.cardList
+      // pile.render()
+
+      const pileId = pile.getAttribute('id')
+      const pileCardIds = Object.keys(this.cardList).filter((cardId) => {
+        const card = this.cardList[cardId]
+        return card.pile === pileId
+      })
+      pileCardIds.forEach((cardId) => {
+        this.addCard(this.cardList[cardId], pile.areaSlot)
+      })
     })
+    /*
     */
 
     this.render()
   }
 
-  addCard (props) {
+  addCard (props, element) {
+    /*
     const newProps = Object.assign(props, {
       // id: this.nextId(),
       container: this.surface
     })
+    */
     // console.log('addCard', side, Card)
-    const card = new Card(newProps)
-    this.surfaceSlot.appendChild(card)
+    const card = new Card(props, this.surface)
+    element.appendChild(card)
 
     // Set a proxy on the card so state changes will update the card properties too
     this.cardList[props.id] = new Proxy(this.cardList[props.id], {
       set: function (target, prop, value, receiver) {
-        console.log('set', prop, value)
         card[prop] = value
         target[prop] = value
         return true

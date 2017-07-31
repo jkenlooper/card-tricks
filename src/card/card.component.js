@@ -18,7 +18,7 @@ const defaultCardHeight = defaultCardWidth * 1.4
 const CardBackTemplate = document.getElementById('card-back')
 
 class Card extends window.HTMLElement {
-  constructor (props) {
+  constructor (props, container) {
     super()
     const shadowRoot = this.attachShadow({mode: 'open'})
 
@@ -42,7 +42,7 @@ class Card extends window.HTMLElement {
     this.id = props.id
     this.width = CardTemplate.getAttribute('width') || defaultCardWidth
     this.height = CardTemplate.getAttribute('height') || defaultCardHeight
-    this.container = props.container
+    this.container = container
 
     shadowRoot.addEventListener('mousedown', this.handleMousedown.bind(this))
   }
@@ -52,6 +52,7 @@ class Card extends window.HTMLElement {
     return [
       'x',
       'y'
+      // TODO: add pileId to card attribute?
     ]
   }
 
