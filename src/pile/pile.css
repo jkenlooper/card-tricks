@@ -1,3 +1,19 @@
 /* pile */
+:host {
+  display: block;
+}
+/* At the time this doesn't seem well supported. */
+slot[name=area]::slotted(*) {
+  position: absolute;
+}
+
 .crdtrx-Pile {
+  position: absolute;
+}
+.crdtrx-Pile-area {
+  position: absolute;
+}
+.crdtrx-Pile-area slot[name=area] {
+  position: absolute;
+
 }

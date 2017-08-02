@@ -75,6 +75,11 @@ class Card extends window.HTMLElement {
     this.render()
   }
 
+  // Fires when element is removed from DOM
+  disconnectedCallback () {
+    this.destroy()
+  }
+
   // Reflect the prop with the attr
   get x () {
     return this.getAttribute('x')
@@ -113,6 +118,12 @@ class Card extends window.HTMLElement {
       */
   }
 
+  destroy () {
+    this.impetus = this.impetus.destroy()
+    // Modern browsers shouldn't need to remove event listeners.
+    // shadowRoot.addEventListener('mousedown', this.handleMousedown.bind(this))
+  }
+
   setImpetus (target) {
     const debouncedUpdateXY = debounce(function updateXY (x, y) {
       const cardXYEvent = new window.CustomEvent('crdtrx-card-xy', {
@@ -138,7 +149,6 @@ class Card extends window.HTMLElement {
       }
     })
   }
-  // TODO: target.impetus = target.impetus.destroy()
 
 }
 export default Card

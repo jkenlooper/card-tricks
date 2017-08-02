@@ -11,18 +11,26 @@
     </head>
     <body>
 
+      <h1>Card Tricks</h1>
       <crdtrx-table game="1952-pickup">
         <div slot="surface">
-          <p>All cards are added to this slot.</p>
           <crdtrx-pile
               id="1ee7"
               stack="neat"
               width="71"
               height="96">
-              <div slot="area">
-                pile 1ee7
-              </div>
+              <div slot="area"></div>
           </crdtrx-pile>
+
+          <!-- pile of face-down cards -->
+          <crdtrx-pile
+              id="2ee7"
+              stack="neat"
+              width="71"
+              height="96">
+              <div slot="area"></div>
+          </crdtrx-pile>
+
         </div>
       </crdtrx-table>
 
@@ -81,6 +89,12 @@
       <template id="card-02h" width="71" height="96">
         <div class="m-card">
           <img src="/cardset-standard/02h.gif" width="71" height="96" alt="02h">
+        </div>
+      </template>
+
+      <template id="card-back101" width="71" height="96">
+        <div class="m-card">
+          <img src="/cardset-standard/back101.gif" width="71" height="96" alt="back101">
         </div>
       </template>
 

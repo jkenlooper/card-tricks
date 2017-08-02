@@ -4,19 +4,26 @@
   contain: content;
   width: 80vw;
   height: 80vh;
+  position: relative;
 }
+
+/* At the time this doesn't seem well supported. */
+slot[name=surface]::slotted(*) {
+  position: absolute;
+}
+
 .crdtrx-Table {
   display: flex;
   justify-content: stretch;
   width: 100%;
   background-color: #ddd;
-  border: 1px solid blue;
 }
 .crdtrx-Table-surface {
   width: 100%;
 
   background-color: #ccc;
-  border: 1px solid yellow;
+}
+.crdtrx-Table-surface slot[name=surface] {
 }
 .crdtrx-Table-debug {
   position: absolute;

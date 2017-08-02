@@ -7,6 +7,7 @@
   "license": "SEE LICENSE IN LICENSE",
   "scripts": {
     "pretest": "standard",
+    "test": "tap test.js",
     "rollup-component": "BUILD=component rollup --config rollup.config.js",
     "rollup-app": "BUILD=app rollup --config rollup.config.js",
     "prebuild": "rm -rf dist; mkdir -p dist",
@@ -40,6 +41,7 @@
     "rollup-pluginutils": "^2.0.1",
     "rollup-watch": "^4.3.1",
     "standard": "^10.0.2",
+    "tap": "^10.7.0",
     "uglify-es": "^3.0.25"
   },
   "dependencies": {

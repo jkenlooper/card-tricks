@@ -48,8 +48,8 @@ class Pile extends window.HTMLElement {
   }
 
   init () {
-    this.style.width = `${this.width}px`
-    this.style.height = `${this.height}px`
+    // this.style.width = `${this.width}px`
+    // this.style.height = `${this.height}px`
     // this.containerId = this.getAttribute('id')
 
     // TODO: cardList is on table. store a internal _cardList to check for

@@ -5,3 +5,12 @@ crdtrx-table:not(:defined) {
   transition: opacity 0.3s ease-in-out;
   height: 100vh;
 }
+
+crdtrx-table [slot=surface] > * {
+  position: absolute;
+}
+
+crdtrx-pile [slot=area] {
+  height: 0;
+  width: 0;
+}

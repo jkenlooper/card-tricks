@@ -154,9 +154,12 @@ class Table extends window.HTMLElement {
 
     switch (ev.target.tagName.toLowerCase()) {
       case Table.name:
-        console.log('table tap', ev.target, ev.currentTarget)
-        this.cardList[2].x = ev.pageX
-        this.cardList[2].y = ev.pageY
+        console.log('table tap', ev.target.offsetTop, this.offsetTop, ev.clientY, ev.screenY)
+        console.log(document.getElementById(this.cardList[57].pile).offsetTop)
+        // this.cardList[2].x = ev.pageX
+        // this.cardList[2].y = ev.pageY - (this.offsetTop)
+        this.cardList[57].x = (ev.clientX - this.offsetLeft) - (document.getElementById(this.cardList[57].id).width / 2)
+        this.cardList[57].y = (ev.clientY - this.offsetTop) - (document.getElementById(this.cardList[57].id).height / 2)
         this.render()
         break
       case Pile.name:
