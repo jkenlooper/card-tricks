@@ -39,19 +39,24 @@ class Card extends window.HTMLElement {
     this.state = {}
     this.x = this.x || props.x
     this.y = this.y || props.y
+    this.z = this.z || props.z
     this.id = props.id
     this.width = CardTemplate.getAttribute('width') || defaultCardWidth
     this.height = CardTemplate.getAttribute('height') || defaultCardHeight
     this.container = container
 
     shadowRoot.addEventListener('mousedown', this.handleMousedown.bind(this))
+    shadowRoot.addEventListener('touchstart', this.handleMousedown.bind(this))
+
+    shadowRoot.addEventListener('mouseup', this.handleMouseup.bind(this))
   }
 
   // Monitor these attributes for changes.
   static get observedAttributes () {
     return [
       'x',
-      'y'
+      'y',
+      'z'
       // TODO: add pileId to card attribute?
     ]
   }
@@ -64,7 +69,7 @@ class Card extends window.HTMLElement {
   attributeChangedCallback (attrName, oldVal, newVal) {
     // console.log('attributeChangedCallback', attrName, oldVal, newVal)
     if (oldVal !== newVal) {
-      this.render()
+      this.render([attrName])
     }
   }
 
@@ -95,27 +100,57 @@ class Card extends window.HTMLElement {
     this.setAttribute('y', Math.round(val))
   }
 
+  get z () {
+    return this.getAttribute('z')
+  }
+  set z (val) {
+    this.setAttribute('z', val)
+  }
+
   handleMousedown (ev) {
-    console.log('tap', ev.pageX, ev.pageY)
+    console.log('card mousedown', ev.pageX, ev.pageY)
+    const cardMouseDownEvent = new window.CustomEvent('crdtrx-card-mousedown', {
+      bubbles: true,
+      composed: true
+    })
+    this.dispatchEvent(cardMouseDownEvent)
+  }
+
+  handleMouseup (ev) {
+    console.log('card mouseup', ev.pageX, ev.pageY)
+    const cardMouseUpEvent = new window.CustomEvent('crdtrx-card-mouseup', {
+      bubbles: true,
+      composed: true
+    })
+    this.dispatchEvent(cardMouseUpEvent)
   }
 
   init () {
     this.style.width = `${this.width}px`
     this.style.height = `${this.height}px`
+    this.style.zIndex = this.z
     // TODO: Update bounds if container changes dimensions
     this.setImpetus(this)
   }
 
-  render () {
+  /**
+   * If attrs is empty then render all attrs. Otherwise, render only attrs listed.
+   */
+  render (attrs) {
     // this.elements.x.innerHTML = this.x
     // this.elements.y.innerHTML = this.y
-    this.style.transform = `translate3d(${this.x}px, ${this.y}px, 0)`
-    if (this.impetus) {
-      this.impetus.setValues(Number(this.x), Number(this.y))
+    if (!attrs || attrs.includes('z')) {
+      this.style.zIndex = this.z
     }
+    if (!attrs || (attrs.includes('x') || attrs.includes('y'))) {
+      this.style.transform = `translate3d(${this.x}px, ${this.y}px, 0)`
       /*
       rotate(${360 - this.r === 360 ? 0 : 360 - this.r}deg)`
       */
+      if (this.impetus) {
+        this.impetus.setValues(Number(this.x), Number(this.y))
+      }
+    }
   }
 
   destroy () {

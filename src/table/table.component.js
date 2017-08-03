@@ -1,6 +1,7 @@
 import crdtrxCard from '../card'
 import crdtrxPile from '../pile'
 import cardService from './card.service.js'
+import {setTopZIndexForPile} from './cardListUtilities.js'
 import template from './table.html'
 import style from './table.css'
 
@@ -57,6 +58,21 @@ class Table extends window.HTMLElement {
       this.cardList[ev.target.id].x = ev.detail.x
       this.cardList[ev.target.id].y = ev.detail.y
       this.render()
+    }, false)
+
+    this.addEventListener('crdtrx-card-mousedown', function (ev) {
+      // TODO: change the pile of the card to be undefined?
+      // console.log(ev.type, ev.composedPath())
+
+      // Make this card the top most if it isn't already
+      this.cardList[ev.target.id].z = setTopZIndexForPile(this.cardList, ev.target.id)
+
+      this.render()
+    }, false)
+
+    this.addEventListener('crdtrx-card-mouseup', function (ev) {
+      // TODO: determine what pile that the card is going to?
+      // If it is within a pile bounds then update card pile to that one and set the maxZIndex.
     }, false)
   }
 
@@ -154,12 +170,12 @@ class Table extends window.HTMLElement {
 
     switch (ev.target.tagName.toLowerCase()) {
       case Table.name:
-        console.log('table tap', ev.target.offsetTop, this.offsetTop, ev.clientY, ev.screenY)
+        console.log('table tap', ev.target.offsetTop, this.offsetTop, ev.pageY, ev.screenY)
         console.log(document.getElementById(this.cardList[57].pile).offsetTop)
         // this.cardList[2].x = ev.pageX
         // this.cardList[2].y = ev.pageY - (this.offsetTop)
-        this.cardList[57].x = (ev.clientX - this.offsetLeft) - (document.getElementById(this.cardList[57].id).width / 2)
-        this.cardList[57].y = (ev.clientY - this.offsetTop) - (document.getElementById(this.cardList[57].id).height / 2)
+        this.cardList[57].x = (ev.pageX - this.offsetLeft) - (document.getElementById(this.cardList[57].id).width / 2)
+        this.cardList[57].y = (ev.pageY - this.offsetTop) - (document.getElementById(this.cardList[57].id).height / 2)
         this.render()
         break
       case Pile.name:

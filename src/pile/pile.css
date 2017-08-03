@@ -1,6 +1,8 @@
 /* pile */
 :host {
   display: block;
+  position: absolute;
+  z-index: 1;
 }
 /* At the time this doesn't seem well supported. */
 slot[name=area]::slotted(*) {
