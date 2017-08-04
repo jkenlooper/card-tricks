@@ -184,6 +184,5 @@ class Card extends window.HTMLElement {
       }
     })
   }
-
 }
 export default Card

@@ -1,7 +1,6 @@
 var tap = require('tap')
 var cardListUtilities = require('./cardListUtilities.tmp.js')
 
-console.log(cardListUtilities)
 tap.test('setTopZIndexForPile', (t) => {
   const cardList = {
     a: {pile: 'pile1', z: 1},
@@ -23,7 +22,6 @@ tap.test('setTopZIndexForPile', (t) => {
   const cTop = cardListUtilities.setTopZIndexForPile(cardList, 'c')
   const qTop = cardListUtilities.setTopZIndexForPile(cardList, 'q')
   t.equal(cTop, 4, 'Stays the same if already highest')
-  t.equal(qTop, 3, 'Stays the same if already highest')
   t.equal(qTop, 3, 'Stays the same if already highest')
   t.end()
 })

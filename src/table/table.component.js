@@ -188,7 +188,6 @@ class Table extends window.HTMLElement {
 
     // this.addCard(ev.target.getAttribute('data-card'), ev.pageX, ev.pageY)
   }
-
 }
 
 export default Table

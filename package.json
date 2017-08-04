@@ -7,7 +7,7 @@
   "license": "SEE LICENSE IN LICENSE",
   "scripts": {
     "pretest": "standard",
-    "test": "make clean && make test",
+    "test": "make clean && make --jobs test",
     "rollup-component": "BUILD=component rollup --config rollup.config.js",
     "rollup-app": "BUILD=app rollup --config rollup.config.js",
     "prebuild": "rm -rf dist; mkdir -p dist",

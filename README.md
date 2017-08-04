@@ -17,11 +17,27 @@ install and setup guide
 
 objective of the game
 
+## Develop It
+
+Watch for changes and build both app.js and component.js.
+```
+npm run dev-component & npm run dev-app &
+```
+
+Somewhat standard on running tests, except uses 
+`make clean && make --jobs test`
+and builds temporary `*.tmp.js` files.
+```
+npm run test
+```
+
 ## Contributors
 
 ## License
 
-AGPL
+Not sure what to license it under ...
+
+AGPL? GPL? LGPL? MIT?
 
 ## Learning Resources
 
