@@ -26,7 +26,7 @@ const PRODUCTION = process.env.ENV === 'production'
 // - Component uses style tag for CSS in shadow DOM.
 // - App CSS is extracted into a file.
 const BUILD = process.env.BUILD
-const builds = ['app', 'component']
+const builds = ['app', 'component', 'test']
 
 if (builds.indexOf(BUILD) === -1) {
   console.error('no build is defined!')
