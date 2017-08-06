@@ -63,6 +63,7 @@ class Table extends window.HTMLElement {
     this.addEventListener('crdtrx-card-mousedown', function (ev) {
       // TODO: change the pile of the card to be undefined?
       // console.log(ev.type, ev.composedPath())
+      this.cardList[ev.target.id].pile = undefined
 
       // Make this card the top most if it isn't already
       this.cardList[ev.target.id].z = setTopZIndexForPile(this.cardList, ev.target.id)
@@ -71,6 +72,7 @@ class Table extends window.HTMLElement {
     }, false)
 
     this.addEventListener('crdtrx-card-mouseup', function (ev) {
+      console.log('table mouseup', ev.type, ev.composedPath())
       // TODO: determine what pile that the card is going to?
       // If it is within a pile bounds then update card pile to that one and set the maxZIndex.
     }, false)
@@ -98,7 +100,8 @@ class Table extends window.HTMLElement {
       return !this.cardList[cardId].pile
     })
     .forEach((cardId) => {
-      this.addCard(this.cardList[cardId], this.surfaceSlot)
+      const card = this.addCard(this.cardList[cardId], this.surfaceSlot)
+      this.proxyCard(card)
     })
 
     // TODO: pile init with cardList?
@@ -113,7 +116,11 @@ class Table extends window.HTMLElement {
         return card.pile === pileId
       })
       pileCardIds.forEach((cardId) => {
-        this.addCard(this.cardList[cardId], pile.areaSlot)
+        // TODO: use the pile.addCard instead? How to create the Proxy?
+        //
+        const card = pile.addCard(this.cardList[cardId], this.surface)
+        this.proxyCard(card)
+        // this.addCard(this.cardList[cardId], pile.areaSlot)
       })
     })
     /*
@@ -133,8 +140,23 @@ class Table extends window.HTMLElement {
     const card = new Card(props, this.surface)
     element.appendChild(card)
 
+    /*
     // Set a proxy on the card so state changes will update the card properties too
     this.cardList[props.id] = new Proxy(this.cardList[props.id], {
+      set: function (target, prop, value, receiver) {
+        card[prop] = value
+        target[prop] = value
+        return true
+      }
+    })
+    */
+
+    return card
+  }
+
+  proxyCard (card) {
+    // Set a proxy on the card so state changes will update the card properties too
+    this.cardList[card.id] = new Proxy(this.cardList[card.id], {
       set: function (target, prop, value, receiver) {
         card[prop] = value
         target[prop] = value

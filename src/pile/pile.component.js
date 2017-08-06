@@ -57,6 +57,14 @@ class Pile extends window.HTMLElement {
     // OR use a Proxy when creating the cards?
     this._cards = {}
     this.cardList = []
+
+    this.addEventListener('crdtrx-card-pileset', function (ev) {
+      console.log('table pileset', ev.type, ev.composedPath())
+      if (ev.detail.pileId !== this.id) {
+      }
+      // TODO: determine what pile that the card is going to?
+      // If it is within a pile bounds then update card pile to that one and set the maxZIndex.
+    }, false)
   }
 
   render () {
@@ -80,19 +88,11 @@ class Pile extends window.HTMLElement {
   }
   */
 
-  /*
-  addCard (side, x, y) {
-    console.log('addCard to pile', side, Card)
-    let card = new Card({
-      id: this.nextId(),
-      side: side,
-      x: x,
-      y: y,
-      container: this.surface
-    })
-    this.surfaceSlot.appendChild(card)
+  addCard (props, surface) {
+    const card = new Card(props, surface)
+    this.areaSlot.appendChild(card)
+    return card
   }
-  */
 
   drawTopCard () {
     return this.cards[0]

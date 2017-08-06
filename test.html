@@ -12,6 +12,7 @@
     <body>
 
       <h1>Card Tricks</h1>
+      <!-- game attr isn't really used. -->
       <crdtrx-table game="1952-pickup">
         <div slot="surface">
           <crdtrx-pile
@@ -19,7 +20,7 @@
               stack="neat"
               width="71"
               height="96">
-              <div slot="area"></div>
+            <div slot="area"><!-- cards for this pile --></div>
           </crdtrx-pile>
 
           <!-- pile of face-down cards -->
@@ -28,8 +29,10 @@
               stack="neat"
               width="71"
               height="96">
-              <div slot="area"></div>
+            <div slot="area"><!-- cards for this pile --></div>
           </crdtrx-pile>
+
+          <!-- cards not in a pile are placed here -->
 
         </div>
       </crdtrx-table>

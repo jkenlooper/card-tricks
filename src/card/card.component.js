@@ -49,6 +49,7 @@ class Card extends window.HTMLElement {
     shadowRoot.addEventListener('touchstart', this.handleMousedown.bind(this))
 
     shadowRoot.addEventListener('mouseup', this.handleMouseup.bind(this))
+    shadowRoot.addEventListener('touchend', this.handleMouseup.bind(this))
   }
 
   // Monitor these attributes for changes.
@@ -105,6 +106,19 @@ class Card extends window.HTMLElement {
   }
   set z (val) {
     this.setAttribute('z', val)
+  }
+
+  set pile (val) {
+    console.log('pile set', val)
+    // TODO: send event up so the pile can remove if pileId !== val?
+    const cardPileSetEvent = new window.CustomEvent('crdtrx-card-pileset', {
+      bubbles: true,
+      composed: true,
+      detail: {
+        pileId: val
+      }
+    })
+    this.dispatchEvent(cardPileSetEvent)
   }
 
   handleMousedown (ev) {
