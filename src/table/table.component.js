@@ -76,6 +76,12 @@ class Table extends window.HTMLElement {
       // TODO: determine what pile that the card is going to?
       // If it is within a pile bounds then update card pile to that one and set the maxZIndex.
     }, false)
+
+    this.addEventListener('crdtrx-pile-removecard', function (ev) {
+      console.log('pile remove card', ev.type, ev.composedPath())
+      // Add the cardEl to this surface
+      this.surfaceSlot.appendChild(ev.detail.cardEl)
+    }, false)
   }
 
   connectedCallback () {
@@ -88,39 +94,27 @@ class Table extends window.HTMLElement {
   }
 
   init () {
-    // let card = {id: '1', name: '01c', x: 30, y: 30, r: 0}
-    // this.addCard(`card-${card.name}`, card.x, card.y)
-
     // Get all the cards for the table
     this.cardList = cardService.getCardList()
 
     // Only add the cards directly to the table that are not in a pile
-    // TODO: add el instead?
     Object.keys(this.cardList).filter((cardId) => {
       return !this.cardList[cardId].pile
     })
     .forEach((cardId) => {
-      const card = this.addCard(this.cardList[cardId], this.surfaceSlot)
+      const card = this.addCard(this.cardList[cardId])
       this.proxyCard(card)
     })
 
-    // TODO: pile init with cardList?
-    // TODO: should pile be already on the page?
     this.querySelectorAll(crdtrxPile).forEach((pile) => {
-      // pile.cardList = this.cardList
-      // pile.render()
-
       const pileId = pile.getAttribute('id')
       const pileCardIds = Object.keys(this.cardList).filter((cardId) => {
         const card = this.cardList[cardId]
         return card.pile === pileId
       })
       pileCardIds.forEach((cardId) => {
-        // TODO: use the pile.addCard instead? How to create the Proxy?
-        //
         const card = pile.addCard(this.cardList[cardId], this.surface)
         this.proxyCard(card)
-        // this.addCard(this.cardList[cardId], pile.areaSlot)
       })
     })
     /*
@@ -129,7 +123,7 @@ class Table extends window.HTMLElement {
     this.render()
   }
 
-  addCard (props, element) {
+  addCard (props) {
     /*
     const newProps = Object.assign(props, {
       // id: this.nextId(),
@@ -138,7 +132,7 @@ class Table extends window.HTMLElement {
     */
     // console.log('addCard', side, Card)
     const card = new Card(props, this.surface)
-    element.appendChild(card)
+    this.surfaceSlot.appendChild(card)
 
     /*
     // Set a proxy on the card so state changes will update the card properties too
@@ -154,6 +148,10 @@ class Table extends window.HTMLElement {
     return card
   }
 
+  /**
+   * Proxy the card properties
+   * @param {Card} card the card element
+   */
   proxyCard (card) {
     // Set a proxy on the card so state changes will update the card properties too
     this.cardList[card.id] = new Proxy(this.cardList[card.id], {

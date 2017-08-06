@@ -53,14 +53,24 @@ class Pile extends window.HTMLElement {
     // this.containerId = this.getAttribute('id')
 
     // TODO: cardList is on table. store a internal _cardList to check for
-    // changes on cardlest when needing to render()?
-    // OR use a Proxy when creating the cards?
-    this._cards = {}
-    this.cardList = []
+    // changes on cardlest when needing to render()? no
+    // OR use a Proxy when creating the cards? yes
+    // this._cards = {}
+    // this.cardList = []
 
     this.addEventListener('crdtrx-card-pileset', function (ev) {
       console.log('table pileset', ev.type, ev.composedPath())
       if (ev.detail.pileId !== this.id) {
+        // card no longer in this pile
+        const removedCard = this.removeCard(ev.detail.cardId)
+        const cardPileRemovedCardEvent = new window.CustomEvent('crdtrx-pile-removecard', {
+          bubbles: true,
+          composed: true,
+          detail: {
+            cardEl: removedCard
+          }
+        })
+        this.dispatchEvent(cardPileRemovedCardEvent)
       }
       // TODO: determine what pile that the card is going to?
       // If it is within a pile bounds then update card pile to that one and set the maxZIndex.
@@ -92,6 +102,11 @@ class Pile extends window.HTMLElement {
     const card = new Card(props, surface)
     this.areaSlot.appendChild(card)
     return card
+  }
+
+  removeCard (cardId) {
+    const removedCard = this.areaSlot.removeChild(document.getElementById(cardId))
+    return removedCard
   }
 
   drawTopCard () {

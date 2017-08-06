@@ -115,7 +115,8 @@ class Card extends window.HTMLElement {
       bubbles: true,
       composed: true,
       detail: {
-        pileId: val
+        pileId: val,
+        cardId: this.id
       }
     })
     this.dispatchEvent(cardPileSetEvent)
