@@ -110,7 +110,7 @@ class Card extends window.HTMLElement {
 
   set pile (val) {
     console.log('pile set', val)
-    // TODO: send event up so the pile can remove if pileId !== val?
+    // Send event up so the pile can remove if pileId !== val
     const cardPileSetEvent = new window.CustomEvent('crdtrx-card-pileset', {
       bubbles: true,
       composed: true,
@@ -176,6 +176,7 @@ class Card extends window.HTMLElement {
 
   setImpetus (target) {
     const debouncedUpdateXY = debounce(function updateXY (x, y) {
+      // TODO: Isn't always the final event? the event is removed?
       const cardXYEvent = new window.CustomEvent('crdtrx-card-xy', {
         bubbles: true,
         composed: true,

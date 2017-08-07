@@ -61,9 +61,9 @@ class Table extends window.HTMLElement {
     }, false)
 
     this.addEventListener('crdtrx-card-mousedown', function (ev) {
-      // TODO: change the pile of the card to be undefined?
-      // console.log(ev.type, ev.composedPath())
+      // The pile and z-index of the card will be updated
       this.cardList[ev.target.id].pile = undefined
+      this.cardList[ev.target.id].z = 0
 
       // Make this card the top most if it isn't already
       this.cardList[ev.target.id].z = setTopZIndexForPile(this.cardList, ev.target.id)
@@ -71,10 +71,10 @@ class Table extends window.HTMLElement {
       this.render()
     }, false)
 
-    this.addEventListener('crdtrx-card-mouseup', function (ev) {
+    this.addEventListener('crdtrx-card-mouseup', function handleMouseupOnCard (ev) {
       console.log('table mouseup', ev.type, ev.composedPath())
-      // TODO: determine what pile that the card is going to?
-      // If it is within a pile bounds then update card pile to that one and set the maxZIndex.
+      // Listen for the final xy position of the card
+      this.addEventListener('crdtrx-card-xy', this.handleCardFinalXY, false)
     }, false)
 
     this.addEventListener('crdtrx-pile-removecard', function (ev) {
@@ -82,6 +82,39 @@ class Table extends window.HTMLElement {
       // Add the cardEl to this surface
       this.surfaceSlot.appendChild(ev.detail.cardEl)
     }, false)
+  }
+
+  handleCardFinalXY (ev) {
+    console.log('handleCardFinalXY', ev)
+    // TODO: determine what pile that the card is going to?
+    // If it is within a pile bounds then update card pile to that one and set the maxZIndex.
+    const piles = this.surfaceSlot.querySelectorAll(crdtrxPile)
+    let pileWithinBounds
+    for (const pile of piles.values()) {
+      if (ev.detail.x >= pile.x &&
+          ev.detail.x <= pile.x + pile.width &&
+          ev.detail.y >= pile.y &&
+          ev.detail.y <= pile.y + pile.height) {
+        pileWithinBounds = pile
+        break
+      }
+    }
+
+    if (pileWithinBounds) {
+      // The pile and z-index of the card will be updated
+      this.cardList[ev.target.id].pile = pileWithinBounds.id
+      this.cardList[ev.target.id].z = 0
+
+      // Make this card the top most if it isn't already
+      this.cardList[ev.target.id].z = setTopZIndexForPile(this.cardList, ev.target.id)
+
+      // Remove the card from table and put it in the pile
+      const card = this.removeCard(ev.target.id)
+      pileWithinBounds.appendCard(card)
+
+      this.render()
+    }
+    this.removeEventListener('crdtrx-card-xy', this.handleCardFinalXY)
   }
 
   connectedCallback () {
@@ -146,6 +179,11 @@ class Table extends window.HTMLElement {
     */
 
     return card
+  }
+
+  removeCard (cardId) {
+    const removedCard = this.surfaceSlot.removeChild(document.getElementById(cardId))
+    return removedCard
   }
 
   /**

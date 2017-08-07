@@ -32,9 +32,8 @@ class Pile extends window.HTMLElement {
 
     this.area = shadowRoot.getElementById('area')
     this.areaSlot = this.querySelector('[slot=area]')
+    this.footprint = shadowRoot.getElementById('footprint')
 
-    this.width = this.getAttribute('width') || 100
-    this.height = this.getAttribute('height') || 100
     this.count = 0
   }
 
@@ -55,35 +54,58 @@ class Pile extends window.HTMLElement {
     // TODO: cardList is on table. store a internal _cardList to check for
     // changes on cardlest when needing to render()? no
     // OR use a Proxy when creating the cards? yes
-    // this._cards = {}
-    // this.cardList = []
 
     this.addEventListener('crdtrx-card-pileset', function (ev) {
       console.log('table pileset', ev.type, ev.composedPath())
       if (ev.detail.pileId !== this.id) {
         // card no longer in this pile
-        const removedCard = this.removeCard(ev.detail.cardId)
-        const cardPileRemovedCardEvent = new window.CustomEvent('crdtrx-pile-removecard', {
-          bubbles: true,
-          composed: true,
-          detail: {
-            cardEl: removedCard
-          }
-        })
-        this.dispatchEvent(cardPileRemovedCardEvent)
+        this.removeCard(ev.detail.cardId)
       }
       // TODO: determine what pile that the card is going to?
       // If it is within a pile bounds then update card pile to that one and set the maxZIndex.
     }, false)
   }
 
+  // Fires when an attribute was added, removed, or updated.
+  attributeChangedCallback (attrName, oldVal, newVal) {
+    if (oldVal !== newVal) {
+      this.render()
+    }
+  }
+
+  // Reflect the prop with the attr
+  get x () {
+    return this.getAttribute('x') || 0
+  }
+  set x (val) {
+    this.setAttribute('x', Math.round(val))
+  }
+
+  get y () {
+    return this.getAttribute('y') || 0
+  }
+  set y (val) {
+    this.setAttribute('y', Math.round(val))
+  }
+
+  get width () {
+    return this.getAttribute('width') || 100
+  }
+  set width (val) {
+    this.setAttribute('width', Math.round(val))
+  }
+
+  get height () {
+    return this.getAttribute('height') || 100
+  }
+  set height (val) {
+    this.setAttribute('height', Math.round(val))
+  }
+
   render () {
-    // cycle through cardList for items that have changed from _cardlist
-    /*
-    this.cards.forEach((card) => {
-      console.log('render card in pile', card)
-    })
-    */
+    this.footprint.style.width = `${this.width}px`
+    this.footprint.style.height = `${this.height}px`
+    this.footprint.style.transform = `translate3d(${this.x}px, ${this.y}px, 0)`
   }
 
   static get name () {
@@ -100,12 +122,23 @@ class Pile extends window.HTMLElement {
 
   addCard (props, surface) {
     const card = new Card(props, surface)
+    return this.appendCard(card)
+  }
+  appendCard (card) {
     this.areaSlot.appendChild(card)
     return card
   }
 
   removeCard (cardId) {
     const removedCard = this.areaSlot.removeChild(document.getElementById(cardId))
+    const cardPileRemovedCardEvent = new window.CustomEvent('crdtrx-pile-removecard', {
+      bubbles: true,
+      composed: true,
+      detail: {
+        cardEl: removedCard
+      }
+    })
+    this.dispatchEvent(cardPileRemovedCardEvent)
     return removedCard
   }
 
