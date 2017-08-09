@@ -8,10 +8,12 @@
   "scripts": {
     "pretest": "standard",
     "test": "make clean && make --jobs test",
+    "rollup-scratch": "BUILD=scratch NODE_ENV=development rollup --config rollup.config.js",
     "rollup-component": "BUILD=component rollup --config rollup.config.js",
     "rollup-app": "BUILD=app rollup --config rollup.config.js",
     "prebuild": "rm -rf dist; mkdir -p dist",
     "build": "ENV=production npm run rollup-component && ENV=production npm run rollup-app",
+    "dev-scratch": "npm run rollup-scratch -- -w",
     "dev-component": "npm run rollup-component -- -w",
     "dev-app": "npm run rollup-app -- -w"
   },
@@ -37,7 +39,9 @@
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-postcss": "^0.5.3",
+    "rollup-plugin-replace": "^1.1.1",
     "rollup-plugin-uglify": "^2.0.1",
+    "rollup-plugin-unassert": "^0.1.0",
     "rollup-pluginutils": "^2.0.1",
     "rollup-watch": "^4.3.1",
     "standard": "^10.0.2",
@@ -48,6 +52,8 @@
     "@webcomponents/webcomponentsjs": "file:lib/webcomponentsjs-1.0.3.tar.gz",
     "debounce": "^1.0.2",
     "hammerjs": "file:lib/hammer.js-2.0.8.tar.gz",
-    "impetus": "file:lib/impetus-0.8.7.tar.gz"
+    "impetus": "file:lib/impetus-0.8.7.tar.gz",
+    "redux": "file:lib/redux-3.7.2.tar.gz",
+    "yo-yo": "file:lib/yo-yo-1.4.1.tar.gz"
   }
 }
