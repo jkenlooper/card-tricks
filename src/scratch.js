@@ -4,19 +4,26 @@ import yo from 'yo-yo'
 import {addCard, moveCard} from './modules/cards/actions.js'
 import configureStore from './store'
 
-// move
-import {getCards} from './store'
+import {CardContainer} from './components'
 
 const store = configureStore()
+
+const appElement = document.getElementById('card-tricks-app')
+const cardContainer = new CardContainer(store, appElement)
 
 store.subscribe(() => {
   console.log(store.getState())
 })
+cardContainer.init()
+
 store.dispatch(addCard({
   id: 1,
   x: 10,
-  y: 10
+  y: 10,
+  name: '02h'
 }))
+
+/*
 
 // Component?
 const el = list([], addCardHandler)
@@ -69,6 +76,9 @@ function update (state) {
   })
 }
 
+// move
+import {getCards} from './store'
+
 store.subscribe(() => {
   update(store.getState())
   console.log(getCards(store))
@@ -76,3 +86,4 @@ store.subscribe(() => {
 })
 
 document.body.appendChild(el)
+*/

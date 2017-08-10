@@ -1,12 +1,14 @@
 <div id="testdiv"  style="width: 400px;height: 400px;">
   Cards
-  <ul>
-    <li>
-      <template id="testdiv-card">
-        <crdtrx-card
-            container="testdiv"
-            ></crdtrx-card>
-      </template>
-    </li>
+  <ul id="testdiv-list">
+    <!-- add all testdiv-card -->
   </ul>
 </div>
+
+<template id="testdiv-card">
+  <li>
+    <crdtrx-card
+          container="testdiv"
+          ></crdtrx-card>
+  </li>
+</template>
