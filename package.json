@@ -1,10 +1,18 @@
 {
   "name": "card-tricks",
-  "version": "1.0.0",
-  "description": "",
-  "main": "dist/component.js",
+  "version": "0.0.0",
+  "description": "Collection of web components for a card game",
+  "main": "dist/card-tricks.js",
   "author": "Jake Hickenlooper",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "AGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jkenlooper/card-tricks.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jkenlooper/card-tricks/issues"
+  },
+  "homepage": "https://github.com/jkenlooper/card-tricks#readme",
   "scripts": {
     "pretest": "standard",
     "test": "make clean && make --jobs test",
