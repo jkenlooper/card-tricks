@@ -122,6 +122,15 @@ class Pile extends window.HTMLElement {
 
   addCard (props, surface) {
     const card = new Card(props, surface)
+    card.setAttribute('id', props.id)
+    card.setAttribute('x', props.x)
+    card.setAttribute('y', props.y)
+    card.setAttribute('z', props.z)
+    card.setAttribute('r', props.r)
+    card.setAttribute('name', props.name)
+    card.setAttribute('pile', props.pile)
+
+    card.setAttribute('container', this.id)
     return this.appendCard(card)
   }
   appendCard (card) {

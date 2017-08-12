@@ -1,5 +1,5 @@
 import resolve from 'rollup-plugin-node-resolve'
-import replace from 'rollup-plugin-replace'
+// import replace from 'rollup-plugin-replace'
 import commonjs from 'rollup-plugin-commonjs'
 import json from 'rollup-plugin-json'
 import html from 'rollup-plugin-html'
@@ -41,7 +41,7 @@ let config = {
   plugins: [
     // rollupUnassert(),
     resolve({jsnext: true}),
-    replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
+    // replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
     commonjs(),
     json(),
     html({

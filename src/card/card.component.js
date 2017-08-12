@@ -25,6 +25,7 @@ class Card extends window.HTMLElement {
 
     this.shadowRoot.addEventListener('mouseup', this.handleMouseup.bind(this))
     this.shadowRoot.addEventListener('touchend', this.handleMouseup.bind(this))
+    this.hasInitialized = false
   }
 
   // Monitor these attributes for changes.
@@ -32,7 +33,8 @@ class Card extends window.HTMLElement {
     return [
       'x',
       'y',
-      'z'
+      'z',
+      'friction'
       // TODO: add pileId to card attribute?
     ]
   }
@@ -51,22 +53,16 @@ class Card extends window.HTMLElement {
 
   // Fires when an instance was inserted into the document.
   connectedCallback () {
-    const CardTemplate = document.getElementById(`card-${this.getAttribute('name')}`)
-    const clonedCard = CardTemplate.content.cloneNode(true)
-    this.shadowRoot.getElementById('card-front').appendChild(clonedCard)
-    console.log(this)
-
-    this.id = this.getAttribute('id')
-    this.width = CardTemplate.getAttribute('width') || defaultCardWidth
-    this.height = CardTemplate.getAttribute('height') || defaultCardHeight
-    this.containerEl = document.getElementById(this.getAttribute('container'))
-    this.init()
+    if (!this.hasInitialized) {
+      this.init()
+    }
 
     this.render()
   }
 
   // Fires when element is removed from DOM
   disconnectedCallback () {
+    console.log('removed', this.id)
     this.destroy()
   }
 
@@ -125,17 +121,36 @@ class Card extends window.HTMLElement {
   }
 
   init () {
+    const CardTemplate = document.getElementById(`card-${this.getAttribute('name')}`)
+    const clonedCard = CardTemplate.content.cloneNode(true)
+    this.shadowRoot.getElementById('card-front').appendChild(clonedCard)
+
+    this.width = CardTemplate.getAttribute('width') || defaultCardWidth
+    this.height = CardTemplate.getAttribute('height') || defaultCardHeight
+    this.containerEl = document.getElementById(this.getAttribute('container'))
+
     this.style.width = `${this.width}px`
     this.style.height = `${this.height}px`
     this.style.zIndex = this.z
     // TODO: Update bounds if container changes dimensions
-    this.setImpetus(this)
+    if (this.getAttribute('friction')) {
+      this.setImpetus(this)
+    }
+    this.hasInitialized = true
   }
 
   /**
    * If attrs is empty then render all attrs. Otherwise, render only attrs listed.
    */
   render (attrs) {
+    if (attrs && attrs.includes('friction')) {
+      // Friction attr has changed so destroy and optional create new impetus.
+      if (this.impetus) {
+        // this.impetus = this.impetus.destroy()
+        this.destroy()
+      }
+      this.setImpetus(this)
+    }
     if (!attrs || attrs.includes('z')) {
       this.style.zIndex = this.z
     }
@@ -152,12 +167,12 @@ class Card extends window.HTMLElement {
 
   destroy () {
     this.impetus = this.impetus.destroy()
+    this.classList.remove('hasImpetus')
     // Modern browsers shouldn't need to remove event listeners.
   }
 
   setImpetus (target) {
     const debouncedUpdateXY = debounce(function updateXY (x, y) {
-      // TODO: Isn't always the final event? the event is removed?
       const cardXYEvent = new window.CustomEvent('crdtrx-card-xy', {
         bubbles: true,
         composed: true,
@@ -169,9 +184,12 @@ class Card extends window.HTMLElement {
       target.dispatchEvent(cardXYEvent)
     }, 200)
 
+    this.classList.add('hasImpetus')
     this.impetus = new Impetus({
       source: target,
       initialValues: [Number(this.x), Number(this.y)],
+      // Set friction 0 - 1.0 or undefined to use impetus default (0.92)
+      friction: Number(this.getAttribute('friction')) || undefined,
       boundX: [0, this.containerEl.clientWidth - this.width],
       boundY: [0, this.containerEl.clientHeight - this.height],
       update: function (x, y) {

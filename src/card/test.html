@@ -1,1 +1,98 @@
-...
+<!doctype html>
+<html lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Visual Tests</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="example.css">
+    </head>
+    <body>
+      <div class="example">
+      <div id="example-card-tricks-table" class="example-container">
+        <div id="spot"></div>
+        <crdtrx-card id="example-card"
+                     name="02h"
+                     x="50"
+                     y="50"
+                     z="1"
+                     r="0"
+                     container="example-card-tricks-table"
+          ></crdtrx-card>
+        <crdtrx-card id="example-card"
+                     name="01c"
+                     x="150"
+                     y="50"
+                     z="1"
+                     r="0"
+                     container="example-card-tricks-table"
+          ></crdtrx-card>
+      </div>
+      <button id="stack-all">stack all</button>
+
+      <!-- Define all cards that are available. -->
+      <template id="card-02h" width="71" height="96">
+        <div class="m-card">
+          <img src="/cardset-standard/02h.gif" width="71" height="96" alt="02h">
+        </div>
+      </template>
+      <template id="card-01c" width="71" height="96">
+        <div class="m-card">
+          <img src="/cardset-standard/01c.gif" width="71" height="96" alt="01c">
+        </div>
+      </template>
+      <template id="card-01d" width="71" height="96">
+        <div class="m-card">
+          <img src="/cardset-standard/01d.gif" width="71" height="96" alt="01d">
+        </div>
+      </template>
+      <template id="card-01h" width="71" height="96">
+        <div class="m-card">
+          <img src="/cardset-standard/01h.gif" width="71" height="96" alt="01h">
+        </div>
+      </template>
+      <template id="card-01s" width="71" height="96">
+        <div class="m-card">
+          <img src="/cardset-standard/01s.gif" width="71" height="96" alt="01s">
+        </div>
+      </template>
+      <template id="card-02c" width="71" height="96">
+        <div class="m-card">
+          <img src="/cardset-standard/02c.gif" width="71" height="96" alt="02c">
+        </div>
+      </template>
+      <template id="card-02d" width="71" height="96">
+        <div class="m-card">
+          <img src="/cardset-standard/02d.gif" width="71" height="96" alt="02d">
+        </div>
+      </template>
+      <template id="card-02h" width="71" height="96">
+        <div class="m-card">
+          <img src="/cardset-standard/02h.gif" width="71" height="96" alt="02h">
+        </div>
+      </template>
+
+      <template id="card-back101" width="71" height="96">
+        <div class="m-card">
+          <img src="/cardset-standard/back101.gif" width="71" height="96" alt="back101">
+        </div>
+      </template>
+
+      <template id="card-b" width="71" height="96">
+        <!--
+        Card B
+        Author: Test Test
+        -->
+        <div class="m-card">
+          I'm card b
+          <b id="x"></b>
+          <b id="y"></b>
+        </div>
+      </template>
+
+      <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-sd-ce.js"></script>
+      <script src="../../dist/component.js"></script>
+      <script src="example.js"></script>
+    </body>
+</html>

@@ -72,13 +72,13 @@ class Table extends window.HTMLElement {
     }, false)
 
     this.addEventListener('crdtrx-card-mouseup', function handleMouseupOnCard (ev) {
-      console.log('table mouseup', ev.type, ev.composedPath())
+      // console.log('table mouseup', ev.type, ev.composedPath())
       // Listen for the final xy position of the card
       this.addEventListener('crdtrx-card-xy', this.handleCardFinalXY, false)
     }, false)
 
     this.addEventListener('crdtrx-pile-removecard', function (ev) {
-      console.log('pile remove card', ev.type, ev.composedPath())
+      // console.log('pile remove card', ev.type, ev.composedPath())
       // Add the cardEl to this surface
       this.surfaceSlot.appendChild(ev.detail.cardEl)
     }, false)
@@ -157,26 +157,17 @@ class Table extends window.HTMLElement {
   }
 
   addCard (props) {
-    /*
-    const newProps = Object.assign(props, {
-      // id: this.nextId(),
-      container: this.surface
-    })
-    */
-    // console.log('addCard', side, Card)
     const card = new Card(props, this.surface)
-    this.surfaceSlot.appendChild(card)
+    card.setAttribute('id', props.id)
+    card.setAttribute('x', props.x)
+    card.setAttribute('y', props.y)
+    card.setAttribute('z', props.z)
+    card.setAttribute('r', props.r)
+    card.setAttribute('name', props.name)
+    card.setAttribute('pile', props.pile)
 
-    /*
-    // Set a proxy on the card so state changes will update the card properties too
-    this.cardList[props.id] = new Proxy(this.cardList[props.id], {
-      set: function (target, prop, value, receiver) {
-        card[prop] = value
-        target[prop] = value
-        return true
-      }
-    })
-    */
+    card.setAttribute('container', this.id)
+    this.surfaceSlot.appendChild(card)
 
     return card
   }

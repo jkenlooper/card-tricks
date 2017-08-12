@@ -59,9 +59,7 @@ npm run test
 
 ## License
 
-Not sure what to license it under ...
-
-AGPL? GPL? LGPL? MIT?
+AGPL-3.0
 
 ## Links and such
 

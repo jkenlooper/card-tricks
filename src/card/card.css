@@ -5,7 +5,10 @@
   border-radius: 1%;
   background-color: white;
   color: black;
+}
 
+/* Card is being animated by the impetus lib */
+:host.hasImpetus {
 }
 
 /* 2.5 x 3.5 */
