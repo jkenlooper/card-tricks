@@ -34,6 +34,7 @@ class Card extends window.HTMLElement {
       'x',
       'y',
       'z',
+      'side',
       'friction'
       // TODO: add pileId to card attribute?
     ]
@@ -99,6 +100,13 @@ class Card extends window.HTMLElement {
     this.setAttribute('z', val)
   }
 
+  get side () {
+    return this.getAttribute('side')
+  }
+  set side (val) {
+    this.setAttribute('side', val)
+  }
+
   set pile (val) {
     console.log('pile set', val)
     // Send event up so the pile can remove if pileId !== val
@@ -132,16 +140,27 @@ class Card extends window.HTMLElement {
   }
 
   init () {
+		const cardBackElement = this.shadowRoot.getElementById('card-back')
+		const cardFrontElement = this.shadowRoot.getElementById('card-front')
+    // Set the front side based on name attr
     const CardTemplate = document.getElementById(`card-${this.getAttribute('name')}`)
     const clonedCard = CardTemplate.content.cloneNode(true)
-    this.shadowRoot.getElementById('card-front').appendChild(clonedCard)
+    cardFrontElement.appendChild(clonedCard)
+
+    // Set the optional back side based on back attr
+    const backAttr = this.getAttribute('back')
+    if (backAttr) {
+      const CardBackTemplate = document.getElementById(`card-${backAttr}`)
+      const clonedBackCard = CardBackTemplate.content.cloneNode(true)
+      cardBackElement.appendChild(clonedBackCard)
+    }
 
     this.width = CardTemplate.getAttribute('width') || defaultCardWidth
     this.height = CardTemplate.getAttribute('height') || defaultCardHeight
     this.containerEl = document.getElementById(this.getAttribute('container'))
 
-    this.style.width = `${this.width}px`
-    this.style.height = `${this.height}px`
+    this.style.width = cardFrontElement.style.width = cardBackElement.style.width = `${this.width}px`
+    this.style.height = cardFrontElement.style.height = cardBackElement.style.height = `${this.height}px`
     this.style.zIndex = this.z
     // TODO: Update bounds if container changes dimensions
     if (this.getAttribute('friction')) {
@@ -164,6 +183,14 @@ class Card extends window.HTMLElement {
       */
       if (this.impetus) {
         this.impetus.setValues(Number(this.x), Number(this.y))
+      }
+    }
+    if (!attrs || (attrs.includes('side'))) {
+      // flip the card
+      if (this.side === 'back') {
+        this.shadowRoot.getElementById('card-side').classList.add('is-flipped')
+      } else {
+        this.shadowRoot.getElementById('card-side').classList.remove('is-flipped')
       }
     }
   }

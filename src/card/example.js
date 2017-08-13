@@ -20,13 +20,28 @@ window.customElements.whenDefined(crdtrxCard)
         card.setAttribute('friction', true)
         card.removeEventListener('transitionend', finished)
       }
+
+      // Only flip if doing a tap (200ms between mouseup and mousedown)
+      let mouseDownTime = 0
+      function onMousedown (ev) {
+        mouseDownTime = new Date().getTime()
+      }
+      function onMouseup (ev) {
+        const mouseUpTime = new Date().getTime()
+        if (mouseUpTime - mouseDownTime < 200) {
+          card.setAttribute('side', card.getAttribute('side') === 'front' ? 'back' : 'front')
+        }
+      }
+      card.addEventListener('mousedown', onMousedown, true)
+      card.addEventListener('mouseup', onMouseup, true)
+      card.addEventListener('touchstart', onMousedown, true)
+      card.addEventListener('touchend', onMouseup, true)
     })
 
     tableElement.addEventListener('crdtrx-card-xy', function (ev) {
       // Update the spot element position everytime the card is at a final position.
       updateSpotPosition(ev.detail.x, ev.detail.y)
     }, false)
-
   })
 
 function updateSpotPosition (x, y) {
