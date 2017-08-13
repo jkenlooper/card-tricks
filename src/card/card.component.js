@@ -45,9 +45,20 @@ class Card extends window.HTMLElement {
 
   // Fires when an attribute was added, removed, or updated.
   attributeChangedCallback (attrName, oldVal, newVal) {
-    // console.log('attributeChangedCallback', attrName, oldVal, newVal)
     if (oldVal !== newVal) {
-      this.render([attrName])
+      // console.log('attributeChangedCallback', attrName, oldVal, newVal)
+      if (attrName === 'friction') {
+        // Friction attr has changed so destroy and optional create new impetus.
+        if (this.impetus) {
+          // this.impetus = this.impetus.destroy()
+          this.destroy()
+        }
+        if (newVal) {
+          this.setImpetus(this)
+        }
+      } else {
+        this.render([attrName])
+      }
     }
   }
 
@@ -103,7 +114,7 @@ class Card extends window.HTMLElement {
   }
 
   handleMousedown (ev) {
-    console.log('card mousedown', ev.pageX, ev.pageY)
+    // console.log('card mousedown', ev.pageX, ev.pageY)
     const cardMouseDownEvent = new window.CustomEvent('crdtrx-card-mousedown', {
       bubbles: true,
       composed: true
@@ -112,7 +123,7 @@ class Card extends window.HTMLElement {
   }
 
   handleMouseup (ev) {
-    console.log('card mouseup', ev.pageX, ev.pageY)
+    // console.log('card mouseup', ev.pageX, ev.pageY)
     const cardMouseUpEvent = new window.CustomEvent('crdtrx-card-mouseup', {
       bubbles: true,
       composed: true
@@ -143,14 +154,6 @@ class Card extends window.HTMLElement {
    * If attrs is empty then render all attrs. Otherwise, render only attrs listed.
    */
   render (attrs) {
-    if (attrs && attrs.includes('friction')) {
-      // Friction attr has changed so destroy and optional create new impetus.
-      if (this.impetus) {
-        // this.impetus = this.impetus.destroy()
-        this.destroy()
-      }
-      this.setImpetus(this)
-    }
     if (!attrs || attrs.includes('z')) {
       this.style.zIndex = this.z
     }

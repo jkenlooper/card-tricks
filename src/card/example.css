@@ -2,7 +2,7 @@
 
 /* Reset the default styles */
 crdtrx-card {
-  transition: transform 3s ease;
+  transition: transform 0.3s ease;
   border: none;
   background-color: transparent;
 }
@@ -22,6 +22,7 @@ crdtrx-card:not(:defined) {
 
 .example {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -49,4 +50,7 @@ crdtrx-card:not(:defined) {
   background-color: white;
   width: 24px;
   height: 24px;
+}
+.example-actions {
+  padding: 20px;
 }
