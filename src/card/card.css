@@ -1,5 +1,5 @@
 :host {
-  display: flex;
+  display: block;
   position: absolute;
   border: 1px solid currentColor;
   border-radius: 1%;
@@ -16,12 +16,15 @@
   position: relative;
   perspective: 1000px;
   width: 100%;
+  height: 100%;
+  transition: transform 0.4s;
+  transform-origin: 50% 50%;
 }
 
 .crdtrx-Card-face {
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 1s;
+  transition: transform 0.4s;
   width: 100%;
   height: 100%;
 }

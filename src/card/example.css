@@ -20,6 +20,17 @@ crdtrx-card:not(:defined) {
   height: 96px;
 }
 
+crdtrx-card > [slot=adjacent] {
+  display: none;
+  position: absolute;
+  z-index: 2;
+  width: 50px;
+}
+
+crdtrx-card:hover > [slot=adjacent] {
+  display: block;
+}
+
 .example {
   display: flex;
   flex-direction: column;
@@ -51,6 +62,7 @@ crdtrx-card:not(:defined) {
   width: 24px;
   height: 24px;
 }
+
 .example-actions {
   padding: 20px;
 }

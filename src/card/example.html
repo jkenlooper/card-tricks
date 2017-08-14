@@ -19,9 +19,14 @@
                      x="50"
                      y="50"
                      z="1"
-                     r="0"
+                     r="345"
                      container="example-card-tricks-table"
-          ></crdtrx-card>
+          >
+          <div slot="adjacent">
+            <button data-action-flip>flip</button>
+            <button data-action-rotate>rotate</button>
+          </div>
+        </crdtrx-card>
         <crdtrx-card id="example-card-2"
                      name="01c"
                      back="back101"
@@ -29,9 +34,14 @@
                      x="150"
                      y="50"
                      z="1"
-                     r="0"
+                     r="80"
                      container="example-card-tricks-table"
-          ></crdtrx-card>
+          >
+          <div slot="adjacent">
+            <button data-action-flip>flip</button>
+            <button data-action-rotate>rotate</button>
+          </div>
+        </crdtrx-card>
       </div>
       <div class="example-actions">
         <button id="stack-all">stack all</button>

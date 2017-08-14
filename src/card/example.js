@@ -21,21 +21,21 @@ window.customElements.whenDefined(crdtrxCard)
         card.removeEventListener('transitionend', finished)
       }
 
-      // Only flip if doing a tap (200ms between mouseup and mousedown)
-      let mouseDownTime = 0
-      function onMousedown (ev) {
-        mouseDownTime = new Date().getTime()
+      // Set flip button action
+      const flipButton = card.querySelector('[data-action-flip]')
+      if (flipButton) {
+        flipButton.addEventListener('click', function handleClickFlipButton (ev) {
+          flipCard(card)
+        }, true)
       }
-      function onMouseup (ev) {
-        const mouseUpTime = new Date().getTime()
-        if (mouseUpTime - mouseDownTime < 200) {
-          card.setAttribute('side', card.getAttribute('side') === 'front' ? 'back' : 'front')
-        }
+
+      // Set rotate button action
+      const rotateButton = card.querySelector('[data-action-rotate]')
+      if (rotateButton) {
+        rotateButton.addEventListener('click', function handleClickRotateButton (ev) {
+          rotateCard(card)
+        }, true)
       }
-      card.addEventListener('mousedown', onMousedown, true)
-      card.addEventListener('mouseup', onMouseup, true)
-      card.addEventListener('touchstart', onMousedown, true)
-      card.addEventListener('touchend', onMouseup, true)
     })
 
     tableElement.addEventListener('crdtrx-card-xy', function (ev) {
@@ -43,6 +43,13 @@ window.customElements.whenDefined(crdtrxCard)
       updateSpotPosition(ev.detail.x, ev.detail.y)
     }, false)
   })
+
+function flipCard (card) {
+  card.setAttribute('side', card.getAttribute('side') === 'front' ? 'back' : 'front')
+}
+function rotateCard (card) {
+  card.setAttribute('r', Number(card.getAttribute('r')) + 20)
+}
 
 function updateSpotPosition (x, y) {
   spotElement.style.transform = `translate3d(${x}px, ${y}px, 0)`

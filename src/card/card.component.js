@@ -34,6 +34,7 @@ class Card extends window.HTMLElement {
       'x',
       'y',
       'z',
+      'r',
       'side',
       'friction'
       // TODO: add pileId to card attribute?
@@ -100,6 +101,13 @@ class Card extends window.HTMLElement {
     this.setAttribute('z', val)
   }
 
+  get r () {
+    return this.getAttribute('r')
+  }
+  set r (val) {
+    this.setAttribute('r', Math.round(val))
+  }
+
   get side () {
     return this.getAttribute('side')
   }
@@ -159,6 +167,8 @@ class Card extends window.HTMLElement {
     this.height = CardTemplate.getAttribute('height') || defaultCardHeight
     this.containerEl = document.getElementById(this.getAttribute('container'))
 
+    this.cardElement = this.shadowRoot.getElementById('card')
+
     this.style.width = cardFrontElement.style.width = cardBackElement.style.width = `${this.width}px`
     this.style.height = cardFrontElement.style.height = cardBackElement.style.height = `${this.height}px`
     this.style.zIndex = this.z
@@ -178,12 +188,14 @@ class Card extends window.HTMLElement {
     }
     if (!attrs || (attrs.includes('x') || attrs.includes('y'))) {
       this.style.transform = `translate3d(${this.x}px, ${this.y}px, 0)`
-      /*
-      rotate(${360 - this.r === 360 ? 0 : 360 - this.r}deg)`
-      */
       if (this.impetus) {
         this.impetus.setValues(Number(this.x), Number(this.y))
       }
+    }
+    if ((!attrs || attrs.includes('r')) && this.cardElement) {
+      let rotate = Number(this.r) || 0
+      rotate = 360 - rotate === 360 ? 0 : 360 - rotate
+      this.cardElement.style.transform = `rotate(${rotate}deg)`
     }
     if (!attrs || (attrs.includes('side'))) {
       // flip the card
@@ -222,6 +234,7 @@ class Card extends window.HTMLElement {
       friction: Number(this.getAttribute('friction')) || undefined,
       boundX: [0, this.containerEl.clientWidth - this.width],
       boundY: [0, this.containerEl.clientHeight - this.height],
+      bounce: false,
       update: function (x, y) {
         debouncedUpdateXY(Math.round(x), Math.round(y))
         target.x = x
