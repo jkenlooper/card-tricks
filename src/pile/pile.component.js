@@ -1,11 +1,6 @@
-import crdtrxCard from '../card'
+import fisherYates from './fisherYates.js'
 import template from './pile.html'
 import style from './pile.css'
-
-let Card = window.customElements.whenDefined(crdtrxCard)
-  .then(() => {
-    return window.customElements.get(crdtrxCard)
-  })
 
 const html = `
 <style>${style}</style>
@@ -13,14 +8,12 @@ ${template}
 `
 
 /**
- * A pile of cards that will always have only one top card.
+ * A pile of elements
  * Properties:
  * - stackType: neat, vertical, horizontal, as-is
- * - faceup
- * - x, y, r, width, height
  */
 class Pile extends window.HTMLElement {
-  constructor (props) {
+  constructor () {
     super()
     const shadowRoot = this.attachShadow({mode: 'open'})
     shadowRoot.innerHTML = html
@@ -39,11 +32,6 @@ class Pile extends window.HTMLElement {
 
   // Fires when an instance was inserted into the document.
   connectedCallback () {
-    Promise.all([Card]).then(values => {
-      Card = values.shift()
-      this.init()
-      this.render()
-    })
   }
 
   init () {
@@ -81,27 +69,6 @@ class Pile extends window.HTMLElement {
     this.setAttribute('x', Math.round(val))
   }
 
-  get y () {
-    return this.getAttribute('y') || 0
-  }
-  set y (val) {
-    this.setAttribute('y', Math.round(val))
-  }
-
-  get width () {
-    return this.getAttribute('width') || 100
-  }
-  set width (val) {
-    this.setAttribute('width', Math.round(val))
-  }
-
-  get height () {
-    return this.getAttribute('height') || 100
-  }
-  set height (val) {
-    this.setAttribute('height', Math.round(val))
-  }
-
   render () {
     this.footprint.style.width = `${this.width}px`
     this.footprint.style.height = `${this.height}px`
@@ -112,57 +79,16 @@ class Pile extends window.HTMLElement {
     return 'crdtrx-pile'
   }
 
-  /*
-  get cards () {
-    return this.cardList.filter((card) => {
-      return card.container === this.containerId
-    })
-  }
-  */
-
-  addCard (props, surface) {
-    const card = new Card(props, surface)
-    card.setAttribute('id', props.id)
-    card.setAttribute('x', props.x)
-    card.setAttribute('y', props.y)
-    card.setAttribute('z', props.z)
-    card.setAttribute('r', props.r)
-    card.setAttribute('name', props.name)
-    card.setAttribute('pile', props.pile)
-
-    card.setAttribute('container', this.id)
-    return this.appendCard(card)
-  }
-  appendCard (card) {
-    this.areaSlot.appendChild(card)
-    return card
-  }
-
-  removeCard (cardId) {
-    const removedCard = this.areaSlot.removeChild(document.getElementById(cardId))
-    const cardPileRemovedCardEvent = new window.CustomEvent('crdtrx-pile-removecard', {
+  shuffle (numberOfCards) {
+    const list = fisherYates(numberOfCards)
+    const pileShuffleEvent = new window.CustomEvent('crdtrx-pile-shuffle', {
       bubbles: true,
       composed: true,
       detail: {
-        cardEl: removedCard
+        list: list
       }
     })
-    this.dispatchEvent(cardPileRemovedCardEvent)
-    return removedCard
-  }
-
-  drawTopCard () {
-    return this.cards[0]
-  }
-
-  acceptCards (cards) {
-  }
-
-  shuffle () {
-  }
-
-  // when transfering all cards in a pile to another pile
-  removeAllCards () {
+    this.dispatchEvent(pileShuffleEvent)
   }
 }
 

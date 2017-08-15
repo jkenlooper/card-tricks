@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Visual Tests</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="example.css">
+    </head>
+    <body>
+
+      Pile example
+      manages z-index of children elements (cards)? just sets the z attr?
+      <div id="example-container" class="example">
+        <crdtrx-pile id="example-pile-1">
+          <div slot="area">
+          <div id="example-div-1" class="example-div">1</div>
+          <div id="example-div-2" class="example-div">2</div>
+          <div id="example-div-3" class="example-div">3</div>
+          <div id="example-div-4" class="example-div">4</div>
+          <div id="example-div-5" class="example-div">5</div>
+          </div>
+        </crdtrx-pile>
+        <div class="example-actions">
+          <button id="shuffle">shuffle</button>
+        </div>
+      </div>
+
+      <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-sd-ce.js"></script>
+      <script src="../../dist/component.js"></script>
+      <script src="example.js"></script>
+    </body>
+</html>
