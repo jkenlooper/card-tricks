@@ -20,34 +20,7 @@ crdtrx-pile {
   background-color: white;
   color: black;
   border: 1px solid black;
-}
-.example-div:nth-child(1) { left: 20px; top: 20px; }
-.example-div:nth-child(2) { left: 40px; top: 40px; }
-.example-div:nth-child(3) { left: 60px; top: 60px; }
-.example-div:nth-child(4) { left: 80px; top: 80px; }
-.example-div:nth-child(5) { left: 100px; top: 100px; }
-
-.example-container {
-  position: relative;
-  border: 1px solid black;
-  border-radius: 5px;
-  background-color: #25671a;
-  width: 75vmin;
-  min-width: 300;
-  height: 75vmin;
-  min-height: 300;
-}
-
-/* Shows where the final x,y point is set on a card. */
-[id=spot] {
-  position: absolute;
-  top: -12px;
-  left: -12px;
-  transform: translate3d(0, 0, 0);
-  border-radius: 50%;
-  background-color: white;
-  width: 24px;
-  height: 24px;
+  transition: transform 0.3s ease;
 }
 
 .example-actions {

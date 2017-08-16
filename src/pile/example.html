@@ -10,16 +10,22 @@
     </head>
     <body>
 
+      <h1>
       Pile example
-      manages z-index of children elements (cards)? just sets the z attr?
+      </h1>
+      <p>
+      The crdtrx-pile web component provides a shuffle method.  This triggers
+      a 'crdtrx-pile-shuffle' event with a list of random integers.  It doesn't
+      manage any child elements directly.
+      </p>
       <div id="example-container" class="example">
         <crdtrx-pile id="example-pile-1">
           <div slot="area">
-          <div id="example-div-1" class="example-div">1</div>
-          <div id="example-div-2" class="example-div">2</div>
-          <div id="example-div-3" class="example-div">3</div>
-          <div id="example-div-4" class="example-div">4</div>
-          <div id="example-div-5" class="example-div">5</div>
+            <!--
+              <div id="example-div-1" class="example-div">1</div>
+              <div id="example-div-2" class="example-div">2</div>
+              ... and more are created here.
+            -->
           </div>
         </crdtrx-pile>
         <div class="example-actions">
