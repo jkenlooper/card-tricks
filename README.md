@@ -1,8 +1,11 @@
 # Card Tricks
 
-Defines web components for use in card games. Mostly experimenting with how
-a larger project can be built without relying on frameworks or creating
-a *custom* framework. <s>Work</s> play in progress.
+Defines web components for use in card games. Does not include actual card
+graphics or full application.  See the examples to see how an application could
+use various components. Also see 
+[Cards on a Plane](https://gitlab.com/jkenlooper/wip-card)
+which is an application that is in development that will use these web
+components.
 
 _TODO: Create animated GIF of dogs playing cards or something_
 
@@ -11,17 +14,12 @@ _TODO: Create animated GIF of dogs playing cards or something_
 * No frameworks
 * Web Components
 * Only modern browsers
-* Well documented and tested code
-
-My goal is to not use an existing javascript framework like React or Angular.
-I do think they have some good methodolgies especially when it comes to
-component architecture.  Adopting best practices and such from these frameworks
-is probably a good thing.
+* Well documented and tested code with examples that showcase just the web component
 
 I am also focusing on creating web components for as many things that I can to
 better isolate each functionality.  At the moment of this writing I have table,
 pile, and card components that are pretty basic.  I'm also using template to
-define the card graphics on such on the page.  I use the shadow DOM CSS to
+define the card graphics on the page.  I use the shadow DOM CSS to
 isolate the styles to each component, but also make some things styleable by
 inheriting styles from the page.  Mostly learning and applying as I go.
 
@@ -31,18 +29,23 @@ to get slowed down with trying for 100% coverage by mocking all of that, too.
 
 ## How to Play
 
+This is just a library of web components that may be useful for creating card
+games.  Each component is sorta developed in isoloation and contains an example
+of how to use it in a web application.  Each component is in its own directory
+within the src directory.
+
 Grok the src/ ... glance over the package.json, Makefile, rollup.config.js and
-then `npm install`.  Next run it locally in your browser.  
+then `npm install`.  Next check the examples locally in your browser.  
 
 *Objective of the game?* Spend countless hours developing something that will
 hopefully be awesome when it's done.  Contributors are welcome.
 
 ## Develop It
 
-Watch for changes and build both app.js and component.js.
+Watch for changes and build it.
 
 ```
-npm run dev-component & npm run dev-app &
+npm run dev
 ```
 
 Somewhat standard on running tests, except uses 
@@ -59,7 +62,7 @@ npm run test
 
 ## License
 
-AGPL-3.0
+LGPL-3.0+
 
 ## Links and such
 
