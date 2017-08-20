@@ -10,7 +10,12 @@
     </head>
     <body>
       <div class="example">
-      <div id="example-card-tricks-table" class="example-container">
+        <p>Example application showing a pile of cards that are movable.</p>
+      <crdtrx-table id="example-card-tricks-table" class="example-container">
+        <div slot="surface">
+          <div class="example-content-on-surface">
+            <strong class="table-label"><a href="https://github.com/jkenlooper/card-tricks">Card Tricks</a><br>Example</strong>
+          </div>
         <crdtrx-pile id="example-pile-1" type="neat" multiplier="1">
           <div slot="area">
             <!-- crdtrx-card elements created and added here. -->
@@ -25,16 +30,13 @@
                      r="345"
                      container="example-card-tricks-table"
           >
-          <div slot="adjacent">
-            <button data-action-flip>flip</button>
-            <button data-action-rotate>rotate</button>
-          </div>
         </crdtrx-card>
             -->
           </div>
         </crdtrx-pile>
+          </div>
 
-      </div>
+      </crdtrx-table>
       <div class="example-actions">
         <button id="stack-all">stack</button>
         <button id="shuffle">shuffle</button>

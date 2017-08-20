@@ -1,10 +1,17 @@
-/* Example CSS for card */
+:root {
+  --table-fg-color: white;
+  --table-bg-color: #25671a;
+}
+
+a {
+  color: currentColor;
+}
 
 /* Reset the default styles */
 crdtrx-card {
-  transition: transform 0.3s ease;
   display: block;
   position: absolute;
+  transition: transform 0.3s ease;
   border: none;
   background-color: transparent;
 }
@@ -42,15 +49,40 @@ crdtrx-card:hover > [slot=adjacent] {
   height: 100vh;
 }
 
-.example-container {
+crdtrx-table {
   position: relative;
+  z-index: 1;
   border: 1px solid black;
   border-radius: 5px;
-  background-color: #25671a;
-  width: 75vmin;
-  min-width: 300;
-  height: 75vmin;
-  min-height: 300;
+  background-color: var(--table-bg-color);
+  width: 95vmin;
+  min-width: 300px;
+  height: 95vmin;
+  min-height: 300px;
+  color: var(--table-fg-color);
+}
+
+/* All items on the surface of the table */
+crdtrx-table > [slot=surface] > * {
+  position: absolute;
+}
+
+.example-content-on-surface {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 95vmin;
+  min-width: 300px;
+  height: 95vmin;
+  min-height: 300px;
+}
+
+.table-label {
+  display: block;
+  transform: rotate(-37deg);
+  opacity: 0.8;
+  font-size: 200%;
+  text-align: center;
 }
 
 /* Shows where the final x,y point is set on a card. */
@@ -66,5 +98,7 @@ crdtrx-card:hover > [slot=adjacent] {
 }
 
 .example-actions {
+  position: relative;
+  z-index: 2;
   padding: 20px;
 }
