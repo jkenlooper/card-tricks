@@ -47,6 +47,11 @@ class Card extends window.HTMLElement {
 
   // Fires when an attribute was added, removed, or updated.
   attributeChangedCallback (attrName, oldVal, newVal) {
+    // Skip rendering if it hasn't initialized yet
+    if (!this.hasInitialized) {
+      return
+    }
+
     if (oldVal !== newVal) {
       // console.log('attributeChangedCallback', attrName, oldVal, newVal)
       if (attrName === 'friction') {

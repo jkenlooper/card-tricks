@@ -11,7 +11,10 @@
     <body>
       <div class="example">
       <div id="example-card-tricks-table" class="example-container">
-        <div id="spot"></div>
+        <crdtrx-pile id="example-pile-1" type="neat" multiplier="1">
+          <div slot="area">
+            <!-- crdtrx-card elements created and added here. -->
+            <!--
         <crdtrx-card id="example-card-1"
                      name="02h"
                      back="back101"
@@ -27,24 +30,16 @@
             <button data-action-rotate>rotate</button>
           </div>
         </crdtrx-card>
-        <crdtrx-card id="example-card-2"
-                     name="01c"
-                     back="back101"
-                     side="back"
-                     x="150"
-                     y="50"
-                     z="1"
-                     r="80"
-                     container="example-card-tricks-table"
-          >
-          <div slot="adjacent">
-            <button data-action-flip>flip</button>
-            <button data-action-rotate>rotate</button>
+            -->
           </div>
-        </crdtrx-card>
+        </crdtrx-pile>
+
       </div>
       <div class="example-actions">
-        <button id="stack-all">stack all</button>
+        <button id="stack-all">stack</button>
+        <button id="shuffle">shuffle</button>
+        <button id="flip-up">flip face up</button>
+        <button id="flip-down">flip face down</button>
       </div>
 
       <!-- Define all cards that are available. -->
@@ -54,7 +49,159 @@
       <template id="card-01c" width="71" height="96">
           <img src="/cardset-standard/01c.gif" width="71" height="96" alt="01c">
       </template>
-
+      <template id="card-01d" width="71" height="96">
+          <img src="/cardset-standard/01d.gif" width="71" height="96" alt="01d">
+      </template>
+      <template id="card-01h" width="71" height="96">
+          <img src="/cardset-standard/01h.gif" width="71" height="96" alt="01h">
+      </template>
+      <template id="card-01s" width="71" height="96">
+          <img src="/cardset-standard/01s.gif" width="71" height="96" alt="01s">
+      </template>
+      <template id="card-02c" width="71" height="96">
+          <img src="/cardset-standard/02c.gif" width="71" height="96" alt="02c">
+      </template>
+      <template id="card-02d" width="71" height="96">
+          <img src="/cardset-standard/02d.gif" width="71" height="96" alt="02d">
+      </template>
+      <template id="card-02h" width="71" height="96">
+          <img src="/cardset-standard/02h.gif" width="71" height="96" alt="02h">
+      </template>
+      <template id="card-02s" width="71" height="96">
+          <img src="/cardset-standard/02s.gif" width="71" height="96" alt="02s">
+      </template>
+      <template id="card-03c" width="71" height="96">
+          <img src="/cardset-standard/03c.gif" width="71" height="96" alt="03c">
+      </template>
+      <template id="card-03d" width="71" height="96">
+          <img src="/cardset-standard/03d.gif" width="71" height="96" alt="03d">
+      </template>
+      <template id="card-03h" width="71" height="96">
+          <img src="/cardset-standard/03h.gif" width="71" height="96" alt="03h">
+      </template>
+      <template id="card-03s" width="71" height="96">
+          <img src="/cardset-standard/03s.gif" width="71" height="96" alt="03s">
+      </template>
+      <template id="card-04c" width="71" height="96">
+          <img src="/cardset-standard/04c.gif" width="71" height="96" alt="04c">
+      </template>
+      <template id="card-04d" width="71" height="96">
+          <img src="/cardset-standard/04d.gif" width="71" height="96" alt="04d">
+      </template>
+      <template id="card-04h" width="71" height="96">
+          <img src="/cardset-standard/04h.gif" width="71" height="96" alt="04h">
+      </template>
+      <template id="card-04s" width="71" height="96">
+          <img src="/cardset-standard/04s.gif" width="71" height="96" alt="04s">
+      </template>
+      <template id="card-05c" width="71" height="96">
+          <img src="/cardset-standard/05c.gif" width="71" height="96" alt="05c">
+      </template>
+      <template id="card-05d" width="71" height="96">
+          <img src="/cardset-standard/05d.gif" width="71" height="96" alt="05d">
+      </template>
+      <template id="card-05h" width="71" height="96">
+          <img src="/cardset-standard/05h.gif" width="71" height="96" alt="05h">
+      </template>
+      <template id="card-05s" width="71" height="96">
+          <img src="/cardset-standard/05s.gif" width="71" height="96" alt="05s">
+      </template>
+      <template id="card-06c" width="71" height="96">
+          <img src="/cardset-standard/06c.gif" width="71" height="96" alt="06c">
+      </template>
+      <template id="card-06d" width="71" height="96">
+          <img src="/cardset-standard/06d.gif" width="71" height="96" alt="06d">
+      </template>
+      <template id="card-06h" width="71" height="96">
+          <img src="/cardset-standard/06h.gif" width="71" height="96" alt="06h">
+      </template>
+      <template id="card-06s" width="71" height="96">
+          <img src="/cardset-standard/06s.gif" width="71" height="96" alt="06s">
+      </template>
+      <template id="card-07c" width="71" height="96">
+          <img src="/cardset-standard/07c.gif" width="71" height="96" alt="07c">
+      </template>
+      <template id="card-07d" width="71" height="96">
+          <img src="/cardset-standard/07d.gif" width="71" height="96" alt="07d">
+      </template>
+      <template id="card-07h" width="71" height="96">
+          <img src="/cardset-standard/07h.gif" width="71" height="96" alt="07h">
+      </template>
+      <template id="card-07s" width="71" height="96">
+          <img src="/cardset-standard/07s.gif" width="71" height="96" alt="07s">
+      </template>
+      <template id="card-08c" width="71" height="96">
+          <img src="/cardset-standard/08c.gif" width="71" height="96" alt="08c">
+      </template>
+      <template id="card-08d" width="71" height="96">
+          <img src="/cardset-standard/08d.gif" width="71" height="96" alt="08d">
+      </template>
+      <template id="card-08h" width="71" height="96">
+          <img src="/cardset-standard/08h.gif" width="71" height="96" alt="08h">
+      </template>
+      <template id="card-08s" width="71" height="96">
+          <img src="/cardset-standard/08s.gif" width="71" height="96" alt="08s">
+      </template>
+      <template id="card-09c" width="71" height="96">
+          <img src="/cardset-standard/09c.gif" width="71" height="96" alt="09c">
+      </template>
+      <template id="card-09d" width="71" height="96">
+          <img src="/cardset-standard/09d.gif" width="71" height="96" alt="09d">
+      </template>
+      <template id="card-09h" width="71" height="96">
+          <img src="/cardset-standard/09h.gif" width="71" height="96" alt="09h">
+      </template>
+      <template id="card-09s" width="71" height="96">
+          <img src="/cardset-standard/09s.gif" width="71" height="96" alt="09s">
+      </template>
+      <template id="card-10c" width="71" height="96">
+          <img src="/cardset-standard/10c.gif" width="71" height="96" alt="10c">
+      </template>
+      <template id="card-10d" width="71" height="96">
+          <img src="/cardset-standard/10d.gif" width="71" height="96" alt="10d">
+      </template>
+      <template id="card-10h" width="71" height="96">
+          <img src="/cardset-standard/10h.gif" width="71" height="96" alt="10h">
+      </template>
+      <template id="card-10s" width="71" height="96">
+          <img src="/cardset-standard/10s.gif" width="71" height="96" alt="10s">
+      </template>
+      <template id="card-11c" width="71" height="96">
+          <img src="/cardset-standard/11c.gif" width="71" height="96" alt="11c">
+      </template>
+      <template id="card-11d" width="71" height="96">
+          <img src="/cardset-standard/11d.gif" width="71" height="96" alt="11d">
+      </template>
+      <template id="card-11h" width="71" height="96">
+          <img src="/cardset-standard/11h.gif" width="71" height="96" alt="11h">
+      </template>
+      <template id="card-11s" width="71" height="96">
+          <img src="/cardset-standard/11s.gif" width="71" height="96" alt="11s">
+      </template>
+      <template id="card-12c" width="71" height="96">
+          <img src="/cardset-standard/12c.gif" width="71" height="96" alt="12c">
+      </template>
+      <template id="card-12d" width="71" height="96">
+          <img src="/cardset-standard/12d.gif" width="71" height="96" alt="12d">
+      </template>
+      <template id="card-12h" width="71" height="96">
+          <img src="/cardset-standard/12h.gif" width="71" height="96" alt="12h">
+      </template>
+      <template id="card-12s" width="71" height="96">
+          <img src="/cardset-standard/12s.gif" width="71" height="96" alt="12s">
+      </template>
+      <template id="card-13c" width="71" height="96">
+          <img src="/cardset-standard/13c.gif" width="71" height="96" alt="13c">
+      </template>
+      <template id="card-13d" width="71" height="96">
+          <img src="/cardset-standard/13d.gif" width="71" height="96" alt="13d">
+      </template>
+      <template id="card-13h" width="71" height="96">
+          <img src="/cardset-standard/13h.gif" width="71" height="96" alt="13h">
+      </template>
+      <template id="card-13s" width="71" height="96">
+          <img src="/cardset-standard/13s.gif" width="71" height="96" alt="13s">
+      </template>
       <template id="card-back101" width="71" height="96">
           <img src="/cardset-standard/back101.gif" width="71" height="96" alt="back101">
       </template>

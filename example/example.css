@@ -3,6 +3,8 @@
 /* Reset the default styles */
 crdtrx-card {
   transition: transform 0.3s ease;
+  display: block;
+  position: absolute;
   border: none;
   background-color: transparent;
 }
