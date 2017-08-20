@@ -153,8 +153,8 @@ class Card extends window.HTMLElement {
   }
 
   init () {
-		const cardBackElement = this.shadowRoot.getElementById('card-back')
-		const cardFrontElement = this.shadowRoot.getElementById('card-front')
+    const cardBackElement = this.shadowRoot.getElementById('card-back')
+    const cardFrontElement = this.shadowRoot.getElementById('card-front')
     // Set the front side based on name attr
     const CardTemplate = document.getElementById(`card-${this.getAttribute('name')}`)
     const clonedCard = CardTemplate.content.cloneNode(true)

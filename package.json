@@ -2,7 +2,7 @@
   "name": "card-tricks",
   "version": "0.0.0",
   "description": "Collection of web components for a card game",
-  "main": "dist/card-tricks.js",
+  "main": "src/index.js",
   "author": "Jake Hickenlooper",
   "license": "LGPL-3.0+",
   "repository": {
@@ -54,7 +54,7 @@
   },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "file:lib/webcomponentsjs-1.0.3.tar.gz",
-    "debounce": "^1.0.2",
+    "debounce": "file:lib/debounce-1.0.2.tar.gz",
     "impetus": "file:lib/impetus-0.8.7.tar.gz"
   }
 }

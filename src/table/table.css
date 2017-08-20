@@ -1,10 +1,11 @@
 :host {
-  display: flex;
-  justify-content: stretch;
+  display: block;
+}
+
+/* Optimize repaints, and overflow is hidden.  Resolution seems to
+ * be worse, however. */
+:host-context([contained-surface]) {
   contain: content;
-  width: 80vw;
-  height: 80vh;
-  position: relative;
 }
 
 /* At the time this doesn't seem well supported. */
@@ -13,21 +14,12 @@ slot[name=surface]::slotted(*) {
 }
 
 .crdtrx-Table {
-  display: flex;
-  justify-content: stretch;
-  width: 100%;
-  background-color: #ddd;
 }
+
 .crdtrx-Table-surface {
   width: 100%;
-
-  background-color: #ccc;
-}
-.crdtrx-Table-surface slot[name=surface] {
-}
-.crdtrx-Table-debug {
-  position: absolute;
-  width: 100%;
-  overflow: auto;
   height: 100%;
+}
+
+.crdtrx-Table-surface slot[name=surface] {
 }

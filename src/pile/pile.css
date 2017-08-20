@@ -2,8 +2,8 @@
 :host {
   display: block;
   position: absolute;
-  z-index: 1;
 }
+
 /* At the time this doesn't seem well supported. */
 slot[name=area]::slotted(*) {
   position: absolute;
@@ -12,14 +12,16 @@ slot[name=area]::slotted(*) {
 .crdtrx-Pile {
   position: absolute;
 }
+
 .crdtrx-Pile-footprint {
   position: absolute;
-  background-color: rgba(0,0,0,0.3);
+  background-color: rgba(0, 0, 0, 0.3);
 }
+
 .crdtrx-Pile-area {
   position: absolute;
 }
+
 .crdtrx-Pile-area slot[name=area] {
   position: absolute;
-
 }

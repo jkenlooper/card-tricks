@@ -76,9 +76,6 @@ function flipCardUp (card) {
 function flipCardDown (card) {
   card.setAttribute('side', 'back')
 }
-function rotateCard (card) {
-  card.setAttribute('r', Number(card.getAttribute('r')) + 20)
-}
 
 // Listen for the shuffle event on a pile
 examplePile1.addEventListener('crdtrx-pile-shuffle', shuffle, true)
