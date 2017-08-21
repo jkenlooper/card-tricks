@@ -1,11 +1,14 @@
 # Card Tricks
 
+[Card Tricks Example application](https://jkenlooper.github.io/card-tricks/)
+
 Defines web components for use in card games. Does not include actual card
 graphics or full application.  See the examples to see how an application could
-use various components. Also see 
+use various components. 
+<!-- TODO: Also see 
 [Cards on a Plane](https://gitlab.com/jkenlooper/wip-card)
 which is an application that is in development that will use these web
-components.
+components. -->
 
 _TODO: Create animated GIF of dogs playing cards or something_
 
