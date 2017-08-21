@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Visual Tests</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="example.css">
+    </head>
+    <body>
+
+      <h1>
+      Pile example
+      </h1>
+      <p>
+      The crdtrx-pile web component provides a shuffle method.  This triggers
+      a 'crdtrx-pile-shuffle' event with a list of random integers.  It doesn't
+      manage any child elements directly.
+      </p>
+        <div class="example-actions">
+          <input id="multiplier" type="number" value="1">
+          <button id="shuffle">shuffle</button>
+          <button stack-button data-type="mess">stack mess</button>
+          <button stack-button data-type="neat">stack neat</button>
+          <button stack-button data-type="spiral">stack spiral</button>
+          <button stack-button data-type="shift">stack shift</button>
+          <button stack-button data-type="flower">stack flower</button>
+          <button stack-button data-type="vertical">stack vertical</button>
+          <button stack-button data-type="horizontal">stack horizontal</button>
+          <button stack-button data-type="vertical-mess">stack vertical mess</button>
+          <button stack-button data-type="horizontal-mess">stack horizontal mess</button>
+          <button stack-button data-type="perfection">stack perfection</button>
+        </div>
+      <div id="example-container" class="example">
+        <crdtrx-pile id="example-pile-1" type="neat" multiplier="1">
+          <div slot="area">
+            <!--
+              <div id="example-div-1" class="example-div">1</div>
+              <div id="example-div-2" class="example-div">2</div>
+              ... and more are created here.
+            -->
+          </div>
+        </crdtrx-pile>
+      </div>
+
+      <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-sd-ce.js"></script>
+      <script src="../../dist/component.js"></script>
+      <script src="example.js"></script>
+    </body>
+</html>

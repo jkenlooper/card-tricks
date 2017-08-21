@@ -1,15 +1,16 @@
 import resolve from 'rollup-plugin-node-resolve'
+// import replace from 'rollup-plugin-replace'
 import commonjs from 'rollup-plugin-commonjs'
 import json from 'rollup-plugin-json'
 import html from 'rollup-plugin-html'
 import uglify from 'rollup-plugin-uglify'
 import { minify } from 'uglify-es'
-// import execute from 'rollup-plugin-execute'
+// import rollupUnassert from 'rollup-plugin-unassert'
 
 // Modified rollup-plugin-postcss to store the css in a var
 import rollupPostcssInline from './lib/rollup-postcss-inline.js'
 
-import postcss from 'rollup-plugin-postcss'
+// import postcss from 'rollup-plugin-postcss'
 
 import postcssImport from 'postcss-import'
 import postcssCustomProperties from 'postcss-custom-properties'
@@ -26,19 +27,25 @@ const PRODUCTION = process.env.ENV === 'production'
 // - Component uses style tag for CSS in shadow DOM.
 // - App CSS is extracted into a file.
 const BUILD = process.env.BUILD
-const builds = ['app', 'component', 'test']
+const builds = ['index', 'test']
+
+// All web components in this library use the crdtrx namespace in their tag
+// name (crdtrx-card, crdtrx-pile, etc.).
+const moduleName = 'crdtrx'
 
 if (builds.indexOf(BUILD) === -1) {
   console.error('no build is defined!')
 }
 
 let config = {
-  entry: `src/${BUILD}.js`,
+  entry: 'src/index.js',
   format: 'iife',
-  moduleName: BUILD,
+  moduleName: moduleName,
   sourceMap: true,
   plugins: [
-    resolve(),
+    // rollupUnassert(),
+    resolve({jsnext: true}),
+    // replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
     commonjs(),
     json(),
     html({
@@ -60,7 +67,7 @@ let config = {
     hammer: 'Hammer',
     HTMLElement: 'HTMLElement'
   },
-  dest: `dist/${BUILD}.js`
+  dest: `dist/${moduleName}.js`
 }
 
 let cssPlugins = [
@@ -75,21 +82,12 @@ if (PRODUCTION) {
   cssPlugins.push(cssnano())
 }
 
-switch (BUILD) {
-  case 'app':
-    config.plugins.push(postcss({
-      plugins: cssPlugins,
-      sourceMap: true,
-      extract: true
-    }))
-    break
-  case 'component':
-    config.plugins.push(rollupPostcssInline({
-      plugins: cssPlugins,
-      sourceMap: true,
-      extract: true
-    }))
-    break
+if (BUILD === 'index') {
+  config.plugins.push(rollupPostcssInline({
+    plugins: cssPlugins,
+    sourceMap: true,
+    extract: true
+  }))
 }
 
 if (PRODUCTION) {

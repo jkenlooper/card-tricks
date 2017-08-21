@@ -1,11 +1,6 @@
-import crdtrxCard from '../card'
+import fisherYates from './fisherYates.js'
 import template from './pile.html'
 import style from './pile.css'
-
-let Card = window.customElements.whenDefined(crdtrxCard)
-  .then(() => {
-    return window.customElements.get(crdtrxCard)
-  })
 
 const html = `
 <style>${style}</style>
@@ -13,57 +8,37 @@ ${template}
 `
 
 /**
- * A pile of cards that will always have only one top card.
- * Properties:
- * - stackType: neat, vertical, horizontal, as-is
- * - faceup
- * - x, y, r, width, height
+ * A pile of elements
+ * Attributes:
+ * - type: neat, vertical, horizontal, as-is
  */
 class Pile extends window.HTMLElement {
-  constructor (props) {
+  constructor () {
     super()
     const shadowRoot = this.attachShadow({mode: 'open'})
     shadowRoot.innerHTML = html
 
-    // Set the action for the add-card button
-    // shadowRoot.querySelectorAll('[data-card]').forEach((button) => {
-    //   button.addEventListener('mousedown', this.handleMousedown.bind(this))
-    // })
-
-    this.area = shadowRoot.getElementById('area')
-    this.areaSlot = this.querySelector('[slot=area]')
-    this.footprint = shadowRoot.getElementById('footprint')
-
-    this.count = 0
+    // this.area = shadowRoot.getElementById('area')
+    // this.areaSlot = this.querySelector('[slot=area]')
+    // this.footprint = shadowRoot.getElementById('footprint')
+    this.hasInitialized = false
   }
 
   // Fires when an instance was inserted into the document.
   connectedCallback () {
-    Promise.all([Card]).then(values => {
-      Card = values.shift()
+    if (!this.hasInitialized) {
       this.init()
-      this.render()
-    })
+    }
   }
 
   init () {
-    // this.style.width = `${this.width}px`
-    // this.style.height = `${this.height}px`
-    // this.containerId = this.getAttribute('id')
-
-    // TODO: cardList is on table. store a internal _cardList to check for
-    // changes on cardlest when needing to render()? no
-    // OR use a Proxy when creating the cards? yes
-
-    this.addEventListener('crdtrx-card-pileset', function (ev) {
-      console.log('table pileset', ev.type, ev.composedPath())
-      if (ev.detail.pileId !== this.id) {
-        // card no longer in this pile
-        this.removeCard(ev.detail.cardId)
-      }
-      // TODO: determine what pile that the card is going to?
-      // If it is within a pile bounds then update card pile to that one and set the maxZIndex.
-    }, false)
+    this.hasInitialized = true
+    // TODO: set initial next card position based on stackType
+    this.next = {
+      x: 0,
+      y: 0,
+      r: 0
+    }
   }
 
   // Fires when an attribute was added, removed, or updated.
@@ -73,87 +48,134 @@ class Pile extends window.HTMLElement {
     }
   }
 
+  // Monitor these attributes for changes.
+  static get observedAttributes () {
+    return [
+      'type',
+      'multiplier'
+    ]
+  }
+
   // Reflect the prop with the attr
-  get x () {
-    return this.getAttribute('x') || 0
+  get type () {
+    return this.getAttribute('type') || 0
   }
-  set x (val) {
-    this.setAttribute('x', Math.round(val))
-  }
-
-  get y () {
-    return this.getAttribute('y') || 0
-  }
-  set y (val) {
-    this.setAttribute('y', Math.round(val))
+  set type (val) {
+    this.setAttribute('type', Math.round(val))
   }
 
-  get width () {
-    return this.getAttribute('width') || 100
+  get multiplier () {
+    return this.getAttribute('multiplier') || 0
   }
-  set width (val) {
-    this.setAttribute('width', Math.round(val))
-  }
-
-  get height () {
-    return this.getAttribute('height') || 100
-  }
-  set height (val) {
-    this.setAttribute('height', Math.round(val))
+  set multiplier (val) {
+    this.setAttribute('multiplier', Math.round(val))
   }
 
   render () {
+    /* TODO: should there be any styles for the pile set here?
     this.footprint.style.width = `${this.width}px`
     this.footprint.style.height = `${this.height}px`
     this.footprint.style.transform = `translate3d(${this.x}px, ${this.y}px, 0)`
+    */
   }
 
   static get name () {
     return 'crdtrx-pile'
   }
 
-  /*
-  get cards () {
-    return this.cardList.filter((card) => {
-      return card.container === this.containerId
-    })
-  }
-  */
-
-  addCard (props, surface) {
-    const card = new Card(props, surface)
-    return this.appendCard(card)
-  }
-  appendCard (card) {
-    this.areaSlot.appendChild(card)
-    return card
+  static randomListOfNumbers (count) {
+    return fisherYates(count)
   }
 
-  removeCard (cardId) {
-    const removedCard = this.areaSlot.removeChild(document.getElementById(cardId))
-    const cardPileRemovedCardEvent = new window.CustomEvent('crdtrx-pile-removecard', {
+  static positionForIndex (index, multiplier, type) {
+    // based on stackType and index return the x,y,r.
+    // use multiplier to exagarate the position
+    const mx = Number(multiplier) || 0
+    const idx = Number(index) || 0
+    const pos = {}
+    switch (type) {
+      case 'neat':
+        pos.x = Math.round((Math.random() * 15) * mx)
+        pos.y = Math.round((Math.random() * 15) * mx)
+        pos.r = Math.round(((Math.random() * 20) - 10) * mx)
+        break
+      case 'mess':
+        pos.x = Math.round((Math.random() * 50) * mx)
+        pos.y = Math.round((Math.random() * 50) * mx)
+        pos.r = Math.round(((Math.random() * 40) - 20) * mx)
+        break
+      case 'shift':
+        pos.x = Math.round(Math.sin(((Math.PI * 2) / 26) * idx) * 20 * mx)
+        pos.y = Math.round(Math.cos(((Math.PI * 2) / 26) * idx) * 20 * mx)
+        pos.r = Math.round(Math.random() * 4) - 2
+        break
+      case 'flower':
+        pos.x = Math.round(Math.sin(((Math.PI * 2) / 26) * idx) * 20 * mx)
+        pos.y = Math.round(Math.cos(((Math.PI * 2) / 26) * idx) * 20 * mx)
+        pos.r = ((idx * 6) * mx) % 360
+        break
+      case 'spiral':
+        pos.x = 0
+        pos.y = 0
+        pos.r = ((idx * 6) * mx) % 360
+        break
+      case 'vertical-mess':
+        pos.x = Math.round(Math.random() * 10) - 5
+        pos.y = Math.round((Math.round((Math.max(3.5, Math.random() * 5) + idx) * mx) + (idx * (5 * mx))) - mx)
+        pos.r = Math.round(Math.random() * 16) - 8
+        break
+      case 'horizontal-mess':
+        pos.x = Math.round((Math.round((Math.max(3.5, Math.random() * 5) + idx) * mx) + (idx * (5 * mx))) - mx)
+        pos.y = Math.round(Math.random() * 10) - 5
+        pos.r = Math.round(Math.random() * 16) - 8
+        break
+      case 'vertical':
+        pos.x = Math.round(Math.random() * 10) - 5
+        pos.y = Math.round((Math.round((5 + idx) * mx) + (idx * (5 * mx))) - mx)
+        pos.r = Math.round(Math.random() * 4) - 2
+        break
+      case 'horizontal':
+        pos.x = Math.round((Math.round((5 + idx) * mx) + (idx * (5 * mx))) - mx)
+        pos.y = Math.round(Math.random() * 10) - 5
+        pos.r = Math.round(Math.random() * 4) - 2
+        break
+      default: // perfection
+        pos.x = 0
+        pos.y = 0
+        pos.r = 0
+    }
+    return pos
+  }
+
+  position (index) {
+    return Pile.positionForIndex(index, this.multiplier, this.type)
+  }
+
+  stack (numberOfCards) {
+    const list = []
+    for (let index = 0; index < numberOfCards; index++) {
+      list.push(Pile.positionForIndex(index, this.multiplier, this.type))
+    }
+    const pileStackEvent = new window.CustomEvent('crdtrx-pile-stack', {
       bubbles: true,
       composed: true,
       detail: {
-        cardEl: removedCard
+        list: list
       }
     })
-    this.dispatchEvent(cardPileRemovedCardEvent)
-    return removedCard
+    this.dispatchEvent(pileStackEvent)
   }
 
-  drawTopCard () {
-    return this.cards[0]
-  }
-
-  acceptCards (cards) {
-  }
-
-  shuffle () {
-  }
-
-  // when transfering all cards in a pile to another pile
-  removeAllCards () {
+  shuffle (numberOfCards) {
+    const list = Pile.randomListOfNumbers(numberOfCards)
+    const pileShuffleEvent = new window.CustomEvent('crdtrx-pile-shuffle', {
+      bubbles: true,
+      composed: true,
+      detail: {
+        list: list
+      }
+    })
+    this.dispatchEvent(pileShuffleEvent)
   }
 }
 

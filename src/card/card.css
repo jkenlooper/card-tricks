@@ -1,24 +1,58 @@
 :host {
-  display: flex;
+  display: block;
   position: absolute;
   border: 1px solid currentColor;
   border-radius: 1%;
   background-color: white;
   color: black;
+}
 
+/* Card is being animated by the impetus lib */
+:host.hasImpetus {
 }
 
 /* 2.5 x 3.5 */
 .crdtrx-Card {
+  position: relative;
+  perspective: 1000px;
   width: 100%;
+  height: 100%;
+  transition: transform 0.4s;
+  transform-origin: 50% 50%;
+}
+
+.crdtrx-Card-face {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.4s;
+  width: 100%;
+  height: 100%;
+}
+
+.crdtrx-Card-face.is-flipped {
+  transform: rotateY(180deg);
 }
 
 .crdtrx-Card-side {
-  display: flex;
+  display: block;
+  position: absolute;
+  backface-visibility: hidden;
+  margin: 0;
   width: 100%;
+  height: 100%;
 }
 
-.crdtrx-Card-back {
-  display: flex;
-  width: 100%;
+.crdtrx-Card-side--front {
+  transform: rotateY(0deg);
+  z-index: 2;
+}
+
+.crdtrx-Card-side--back {
+  transform: rotateY(180deg);
+  z-index: 1;
+}
+
+/* A single img as the cloned template should be block. */
+.crdtrx-Card-side > img:first-child:last-child {
+  display: block;
 }

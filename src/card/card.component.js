@@ -2,7 +2,6 @@ import Impetus from 'impetus'
 import debounce from 'debounce'
 
 import template from './card.html'
-// import { version, author } from '../../package.json'
 import style from './card.css'
 
 const html = `
@@ -10,46 +9,23 @@ const html = `
 ${template}
 `
 
-// IDEA: use a <template> for each card type and have the template already on the page?
-
 // Poker size card 2.5 x 3.5
 const defaultCardWidth = 100
 const defaultCardHeight = defaultCardWidth * 1.4
-const CardBackTemplate = document.getElementById('card-back')
 
 class Card extends window.HTMLElement {
-  constructor (props, container) {
+  constructor () {
     super()
-    const shadowRoot = this.attachShadow({mode: 'open'})
+    this.attachShadow({mode: 'open'})
 
-    shadowRoot.innerHTML = html
-    const cardBack = CardBackTemplate.content.cloneNode(true)
+    this.shadowRoot.innerHTML = html
 
-    const CardTemplate = document.getElementById(`card-${props.name}`)
-    const clonedCard = CardTemplate.content.cloneNode(true)
-    shadowRoot.getElementById('card-front').appendChild(clonedCard)
-    shadowRoot.getElementById('card-back').appendChild(cardBack)
+    this.shadowRoot.addEventListener('mousedown', this.handleMousedown.bind(this))
+    this.shadowRoot.addEventListener('touchstart', this.handleMousedown.bind(this))
 
-    // this.container = shadowRoot.querySelector('.m-card')
-    this.elements = {
-      x: shadowRoot.getElementById('x'),
-      y: shadowRoot.getElementById('y')
-    }
-
-    this.state = {}
-    this.x = this.x || props.x
-    this.y = this.y || props.y
-    this.z = this.z || props.z
-    this.id = props.id
-    this.width = CardTemplate.getAttribute('width') || defaultCardWidth
-    this.height = CardTemplate.getAttribute('height') || defaultCardHeight
-    this.container = container
-
-    shadowRoot.addEventListener('mousedown', this.handleMousedown.bind(this))
-    shadowRoot.addEventListener('touchstart', this.handleMousedown.bind(this))
-
-    shadowRoot.addEventListener('mouseup', this.handleMouseup.bind(this))
-    shadowRoot.addEventListener('touchend', this.handleMouseup.bind(this))
+    this.shadowRoot.addEventListener('mouseup', this.handleMouseup.bind(this))
+    this.shadowRoot.addEventListener('touchend', this.handleMouseup.bind(this))
+    this.hasInitialized = false
   }
 
   // Monitor these attributes for changes.
@@ -57,7 +33,10 @@ class Card extends window.HTMLElement {
     return [
       'x',
       'y',
-      'z'
+      'z',
+      'r',
+      'side',
+      'friction'
       // TODO: add pileId to card attribute?
     ]
   }
@@ -68,21 +47,40 @@ class Card extends window.HTMLElement {
 
   // Fires when an attribute was added, removed, or updated.
   attributeChangedCallback (attrName, oldVal, newVal) {
-    // console.log('attributeChangedCallback', attrName, oldVal, newVal)
+    // Skip rendering if it hasn't initialized yet
+    if (!this.hasInitialized) {
+      return
+    }
+
     if (oldVal !== newVal) {
-      this.render([attrName])
+      // console.log('attributeChangedCallback', attrName, oldVal, newVal)
+      if (attrName === 'friction') {
+        // Friction attr has changed so destroy and optional create new impetus.
+        if (this.impetus) {
+          // this.impetus = this.impetus.destroy()
+          this.destroy()
+        }
+        if (newVal) {
+          this.setImpetus(this)
+        }
+      } else {
+        this.render([attrName])
+      }
     }
   }
 
   // Fires when an instance was inserted into the document.
   connectedCallback () {
-    this.init()
+    if (!this.hasInitialized) {
+      this.init()
+    }
 
     this.render()
   }
 
   // Fires when element is removed from DOM
   disconnectedCallback () {
+    console.log('removed', this.id)
     this.destroy()
   }
 
@@ -108,6 +106,20 @@ class Card extends window.HTMLElement {
     this.setAttribute('z', val)
   }
 
+  get r () {
+    return this.getAttribute('r')
+  }
+  set r (val) {
+    this.setAttribute('r', Math.round(val))
+  }
+
+  get side () {
+    return this.getAttribute('side')
+  }
+  set side (val) {
+    this.setAttribute('side', val)
+  }
+
   set pile (val) {
     console.log('pile set', val)
     // Send event up so the pile can remove if pileId !== val
@@ -123,7 +135,7 @@ class Card extends window.HTMLElement {
   }
 
   handleMousedown (ev) {
-    console.log('card mousedown', ev.pageX, ev.pageY)
+    // console.log('card mousedown', ev.pageX, ev.pageY)
     const cardMouseDownEvent = new window.CustomEvent('crdtrx-card-mousedown', {
       bubbles: true,
       composed: true
@@ -132,7 +144,7 @@ class Card extends window.HTMLElement {
   }
 
   handleMouseup (ev) {
-    console.log('card mouseup', ev.pageX, ev.pageY)
+    // console.log('card mouseup', ev.pageX, ev.pageY)
     const cardMouseUpEvent = new window.CustomEvent('crdtrx-card-mouseup', {
       bubbles: true,
       composed: true
@@ -141,42 +153,73 @@ class Card extends window.HTMLElement {
   }
 
   init () {
-    this.style.width = `${this.width}px`
-    this.style.height = `${this.height}px`
+    const cardBackElement = this.shadowRoot.getElementById('card-back')
+    const cardFrontElement = this.shadowRoot.getElementById('card-front')
+    // Set the front side based on name attr
+    const CardTemplate = document.getElementById(`card-${this.getAttribute('name')}`)
+    const clonedCard = CardTemplate.content.cloneNode(true)
+    cardFrontElement.appendChild(clonedCard)
+
+    // Set the optional back side based on back attr
+    const backAttr = this.getAttribute('back')
+    if (backAttr) {
+      const CardBackTemplate = document.getElementById(`card-${backAttr}`)
+      const clonedBackCard = CardBackTemplate.content.cloneNode(true)
+      cardBackElement.appendChild(clonedBackCard)
+    }
+
+    this.width = CardTemplate.getAttribute('width') || defaultCardWidth
+    this.height = CardTemplate.getAttribute('height') || defaultCardHeight
+    this.containerEl = document.getElementById(this.getAttribute('container'))
+
+    this.cardElement = this.shadowRoot.getElementById('card')
+
+    this.style.width = cardFrontElement.style.width = cardBackElement.style.width = `${this.width}px`
+    this.style.height = cardFrontElement.style.height = cardBackElement.style.height = `${this.height}px`
     this.style.zIndex = this.z
     // TODO: Update bounds if container changes dimensions
-    this.setImpetus(this)
+    if (this.getAttribute('friction')) {
+      this.setImpetus(this)
+    }
+    this.hasInitialized = true
   }
 
   /**
    * If attrs is empty then render all attrs. Otherwise, render only attrs listed.
    */
   render (attrs) {
-    // this.elements.x.innerHTML = this.x
-    // this.elements.y.innerHTML = this.y
     if (!attrs || attrs.includes('z')) {
       this.style.zIndex = this.z
     }
     if (!attrs || (attrs.includes('x') || attrs.includes('y'))) {
       this.style.transform = `translate3d(${this.x}px, ${this.y}px, 0)`
-      /*
-      rotate(${360 - this.r === 360 ? 0 : 360 - this.r}deg)`
-      */
       if (this.impetus) {
         this.impetus.setValues(Number(this.x), Number(this.y))
+      }
+    }
+    if ((!attrs || attrs.includes('r')) && this.cardElement) {
+      let rotate = Number(this.r) || 0
+      rotate = 360 - rotate === 360 ? 0 : 360 - rotate
+      this.cardElement.style.transform = `rotate(${rotate}deg)`
+    }
+    if (!attrs || (attrs.includes('side'))) {
+      // flip the card
+      if (this.side === 'back') {
+        this.shadowRoot.getElementById('card-side').classList.add('is-flipped')
+      } else {
+        this.shadowRoot.getElementById('card-side').classList.remove('is-flipped')
       }
     }
   }
 
   destroy () {
     this.impetus = this.impetus.destroy()
+    this.classList.remove('hasImpetus')
     // Modern browsers shouldn't need to remove event listeners.
-    // shadowRoot.addEventListener('mousedown', this.handleMousedown.bind(this))
   }
 
   setImpetus (target) {
     const debouncedUpdateXY = debounce(function updateXY (x, y) {
-      // TODO: Isn't always the final event? the event is removed?
       const cardXYEvent = new window.CustomEvent('crdtrx-card-xy', {
         bubbles: true,
         composed: true,
@@ -188,11 +231,15 @@ class Card extends window.HTMLElement {
       target.dispatchEvent(cardXYEvent)
     }, 200)
 
+    this.classList.add('hasImpetus')
     this.impetus = new Impetus({
       source: target,
       initialValues: [Number(this.x), Number(this.y)],
-      boundX: [0, this.container.clientWidth - this.width],
-      boundY: [0, this.container.clientHeight - this.height],
+      // Set friction 0 - 1.0 or undefined to use impetus default (0.92)
+      friction: Number(this.getAttribute('friction')) || undefined,
+      boundX: [0, this.containerEl.clientWidth - this.width],
+      boundY: [0, this.containerEl.clientHeight - this.height],
+      bounce: false,
       update: function (x, y) {
         debouncedUpdateXY(Math.round(x), Math.round(y))
         target.x = x
