@@ -2,7 +2,7 @@
   "name": "card-tricks",
   "version": "0.0.0",
   "description": "Collection of web components for a card game",
-  "main": "src/index.js",
+  "main": "dist/crdtrx.js",
   "author": "Jake Hickenlooper",
   "license": "LGPL-3.0+",
   "repository": {

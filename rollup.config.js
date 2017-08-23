@@ -39,7 +39,7 @@ if (builds.indexOf(BUILD) === -1) {
 
 let config = {
   entry: 'src/index.js',
-  format: 'iife',
+  format: 'es', // Switch to iife for the example dist
   moduleName: moduleName,
   sourceMap: true,
   plugins: [
