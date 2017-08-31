@@ -198,8 +198,7 @@ class Card extends window.HTMLElement {
       }
     }
     if ((!attrs || attrs.includes('r')) && this.cardElement) {
-      let rotate = Number(this.r) || 0
-      rotate = 360 - rotate === 360 ? 0 : 360 - rotate
+      const rotate = (Number(this.r) || 0) % 360
       this.cardElement.style.transform = `rotate(${rotate}deg)`
     }
     if (!attrs || (attrs.includes('side'))) {

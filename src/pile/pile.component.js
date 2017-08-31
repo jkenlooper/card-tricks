@@ -112,12 +112,12 @@ class Pile extends window.HTMLElement {
       case 'flower':
         pos.x = Math.round(Math.sin(((Math.PI * 2) / 26) * idx) * 20 * mx)
         pos.y = Math.round(Math.cos(((Math.PI * 2) / 26) * idx) * 20 * mx)
-        pos.r = ((idx * 6) * mx) % 360
+        pos.r = (idx * 6) * mx
         break
       case 'spiral':
         pos.x = 0
         pos.y = 0
-        pos.r = ((idx * 6) * mx) % 360
+        pos.r = (idx * 6) * mx
         break
       case 'vertical-mess':
         pos.x = Math.round(Math.random() * 10) - 5
