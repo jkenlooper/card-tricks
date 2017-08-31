@@ -181,7 +181,12 @@ class Card extends window.HTMLElement {
     if (this.getAttribute('friction')) {
       this.setImpetus(this)
     }
+
     this.hasInitialized = true
+    // Skip showing the initial transition
+    window.requestAnimationFrame(() => {
+      this.cardElement.classList.add('hasInitialized')
+    })
   }
 
   /**
