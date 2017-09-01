@@ -103,6 +103,7 @@ class Pile extends window.HTMLElement {
         pos.x = Math.round((Math.random() * 50) * mx)
         pos.y = Math.round((Math.random() * 50) * mx)
         pos.r = Math.round(((Math.random() * 40) - 20) * mx)
+        pos.side = Math.round(Math.random() * 1) % 2 ? 'front' : 'back'
         break
       case 'shift':
         pos.x = Math.round(Math.sin(((Math.PI * 2) / 26) * idx) * 20 * mx)
