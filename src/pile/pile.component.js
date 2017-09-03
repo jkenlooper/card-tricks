@@ -152,6 +152,18 @@ class Pile extends window.HTMLElement {
     return Pile.positionForIndex(index, this.multiplier, this.type)
   }
 
+  offset (pos) {
+    const newPos = {}
+    // offset by pile x,y
+    if (pos.x !== undefined) {
+      newPos.x = (Number(this.dataset.x) || 0) + pos.x
+    }
+    if (pos.y !== undefined) {
+      newPos.y = (Number(this.dataset.y) || 0) + pos.y
+    }
+    return Object.assign({}, pos, newPos)
+  }
+
   stack (numberOfCards) {
     const list = []
     for (let index = 0; index < numberOfCards; index++) {
