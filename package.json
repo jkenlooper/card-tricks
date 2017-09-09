@@ -1,6 +1,6 @@
 {
   "name": "card-tricks",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Collection of web components for a card game",
   "main": "dist/crdtrx.js",
   "author": "Jake Hickenlooper",
