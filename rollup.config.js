@@ -39,7 +39,7 @@ if (builds.indexOf(BUILD) === -1) {
 
 let config = {
   entry: 'src/index.js',
-  format: 'es', // Switch to iife for the example dist
+  format: 'iife',
   moduleName: moduleName,
   sourceMap: true,
   plugins: [
@@ -63,9 +63,11 @@ let config = {
       }
     })
   ],
+  external: [
+    'impetus'
+  ],
   globals: {
-    hammer: 'Hammer',
-    HTMLElement: 'HTMLElement'
+    impetus: 'Impetus'
   },
   dest: `dist/${moduleName}.js`
 }
