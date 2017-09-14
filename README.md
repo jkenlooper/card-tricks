@@ -5,10 +5,10 @@
 Defines web components for use in card games. Does not include actual card
 graphics or full application.  See the examples to see how an application could
 use various components. 
-<!-- TODO: Also see 
-[Cards on a Plane](https://gitlab.com/jkenlooper/wip-card)
-which is an application that is in development that will use these web
-components. -->
+
+Also see 
+[Cards on a Plane](http://jkenlooper.gitlab.io/cards-on-a-plane/)
+which is in development.
 
 _TODO: Create animated GIF of dogs playing cards or something_
 
@@ -33,7 +33,7 @@ to get slowed down with trying for 100% coverage by mocking all of that, too.
 ## How to Play
 
 This is just a library of web components that may be useful for creating card
-games.  Each component is sorta developed in isoloation and contains an example
+games.  Each component is sorta developed in isolation and contains an example
 of how to use it in a web application.  Each component is in its own directory
 within the src directory.
 
@@ -69,9 +69,11 @@ LGPL-3.0+
 
 ## Links and such
 
+Card graphics from [PySolFC-Cardsets](https://sourceforge.net/projects/pysolfc/files/PySolFC-Cardsets/PySolFC-Cardsets-2.0/).
+
 ### Learning Resources
 
-* [Shandow DOM](https://developers.google.com/web/fundamentals/getting-started/primers/shadowdom)
+* [Shadow DOM](https://developers.google.com/web/fundamentals/getting-started/primers/shadowdom)
 * [Custom Elements](https://developers.google.com/web/fundamentals/getting-started/primers/customelements)
 
 * [Fisher Yates Shuffle](https://en.wikipedia.org/wiki/Fisher–Yates_shuffle)
@@ -79,17 +81,5 @@ LGPL-3.0+
 
 ### Similiar projects
 
-* https://github.com/pakastin/deck-of-cards
-* http://playingcards.io
-* http://greenmahjong.daniel-beck.org/#game
-* https://github.com/geobalas/Poker
-* [Tabletop Simulator](http://berserk-games.com/tabletop-simulator/)
+* [HTML5 Deck of Cards](https://github.com/pakastin/deck-of-cards)
 
-### Graphics
-
-* https://sourceforge.net/projects/pysolfc/files/PySolFC-Cardsets/PySolFC-Cardsets-2.0/
-* https://sourceforge.net/projects/vector-cards/
-
-### Other
-
-* https://github.com/leereilly/games
