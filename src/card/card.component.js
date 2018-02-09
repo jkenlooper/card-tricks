@@ -1,5 +1,4 @@
 import Impetus from 'impetus'
-import debounce from 'debounce'
 
 import template from './card.html'
 import style from './card.css'
@@ -223,7 +222,7 @@ class Card extends window.HTMLElement {
   }
 
   setImpetus (target) {
-    const debouncedUpdateXY = debounce(function updateXY (x, y) {
+    function updateXY (x, y) {
       const cardXYEvent = new window.CustomEvent('crdtrx-card-xy', {
         bubbles: true,
         composed: true,
@@ -233,7 +232,7 @@ class Card extends window.HTMLElement {
         }
       })
       target.dispatchEvent(cardXYEvent)
-    }, 200)
+    }
 
     this.classList.add('hasImpetus')
     this.impetus = new Impetus({
@@ -245,7 +244,7 @@ class Card extends window.HTMLElement {
       boundY: [0, this.containerEl.clientHeight - this.height],
       bounce: false,
       update: function (x, y) {
-        debouncedUpdateXY(Math.round(x), Math.round(y))
+        updateXY(Math.round(x), Math.round(y))
         target.x = x
         target.y = y
       }

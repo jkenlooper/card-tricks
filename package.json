@@ -54,7 +54,6 @@
   },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^1.0.3",
-    "debounce": "^1.0.2",
     "impetus": "^0.8.7"
   }
 }
